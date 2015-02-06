@@ -1,7 +1,0 @@
-K 13
-svn:mergeinfo
-V 186
-/branches/andreas_vli_branch/src/vli/vli.ipp:1948-2224
-/branches/reordering_trunk/large_integer/VLI/src/vli/vli.ipp:1363-1541
-/branches/stable/large_integer/VLI/src/vli/vli.ipp:2156-2239
-END
