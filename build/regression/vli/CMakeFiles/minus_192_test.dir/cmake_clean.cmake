@@ -1,0 +1,10 @@
+FILE(REMOVE_RECURSE
+  "CMakeFiles/minus_192_test.dir/minus.cpp.o"
+  "minus_192_test.pdb"
+  "minus_192_test"
+)
+
+# Per-language clean rules from dependency scanning.
+FOREACH(lang CXX)
+  INCLUDE(CMakeFiles/minus_192_test.dir/cmake_clean_${lang}.cmake OPTIONAL)
+ENDFOREACH(lang)

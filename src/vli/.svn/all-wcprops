@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/hp2c/hp2c/!svn/ver/3053/branches/vli_release/src/vli
+END
+config.hpp.in
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/config.hpp.in
+END
+integer.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/hp2c/hp2c/!svn/ver/3053/branches/vli_release/src/vli/integer.hpp
+END
+integer.ipp
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/hp2c/hp2c/!svn/ver/3052/branches/vli_release/src/vli/integer.ipp
+END
+vector.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/vector.hpp
+END
+polynomial.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial.hpp
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/CMakeLists.txt
+END

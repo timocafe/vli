@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial
+END
+polynomial_traits.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial/polynomial_traits.hpp
+END
+monomial.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial/monomial.hpp
+END
+vector_polynomial_cpu.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial/vector_polynomial_cpu.hpp
+END
+numeric.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial/numeric.hpp
+END
+polynomial.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial/polynomial.hpp
+END
+variable.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial/variable.hpp
+END

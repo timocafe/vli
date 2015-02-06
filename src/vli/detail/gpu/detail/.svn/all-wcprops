@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/detail
+END
+scheduler.h
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/detail/scheduler.h
+END
+numeric.h
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/detail/numeric.h
+END
+gpu_mem_block.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/detail/gpu_mem_block.h
+END
+gpu_mem_block.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/detail/gpu_mem_block.hpp
+END
+variables_gpu.h
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/detail/variables_gpu.h
+END
+gpu_error_message.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/detail/gpu_error_message.h
+END
+gpu_karatsuba_asm.h
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/detail/gpu_karatsuba_asm.h
+END
+multiply_extend_algo.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/detail/multiply_extend_algo.hpp
+END

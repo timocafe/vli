@@ -1,0 +1,2 @@
+/usr/bin/ar cr libvli.a  CMakeFiles/vli.dir/detail/cpu/kernels_cpu_operations.cpp.o
+/usr/bin/ranlib libvli.a

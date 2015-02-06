@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/cpu/generic
+END
+kernels_cpu_muladd_asm.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/cpu/generic/kernels_cpu_muladd_asm.h
+END
+kernels_cpu_add_asm.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/cpu/generic/kernels_cpu_add_asm.h
+END
+kernels_cpu_sub_asm.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/cpu/generic/kernels_cpu_sub_asm.h
+END
+kernels_cpu_mul_asm.h
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/cpu/generic/kernels_cpu_mul_asm.h
+END

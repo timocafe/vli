@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/hp2c/hp2c/!svn/ver/3050/branches/vli_release/src/vli/detail
+END
+kernels_cpu.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/hp2c/hp2c/!svn/ver/3046/branches/vli_release/src/vli/detail/kernels_cpu.h
+END
+kernels_gpu.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/kernels_gpu.h
+END

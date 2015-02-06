@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu
+END
+inner_product_gpu_accelerator.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/inner_product_gpu_accelerator.hpp
+END
+polynomial_operations.cu
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/polynomial_operations.cu
+END
+polynomial_operations.h
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/detail/gpu/polynomial_operations.h
+END

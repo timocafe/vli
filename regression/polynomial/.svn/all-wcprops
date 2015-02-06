@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/regression/polynomial
+END
+polynomial_tests_reference.txt
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/regression/polynomial/polynomial_tests_reference.txt
+END
+use_gmp_integers.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/regression/polynomial/use_gmp_integers.hpp
+END
+polynomial_tests.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/regression/polynomial/polynomial_tests.cpp
+END
+vli_monomial_tests.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/regression/polynomial/vli_monomial_tests.cpp
+END
+CMakeLists.txt
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/regression/polynomial/CMakeLists.txt
+END

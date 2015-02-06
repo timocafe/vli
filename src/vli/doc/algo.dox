@@ -1,0 +1,137 @@
+
+/*!
+\page algo Algorithms 
+
+In this short section, we describe briefly  the algorithms implemented in the library.
+     -# algorithms apply on vli::integer
+     -# algorithms apply on vli::polynomial
+
+\section algointeger Algorithms apply on vli::integer
+
+
+\subsection add Addition and subtraction
+
+
+Addition and subtraction are performed using classical schoolbook algorithm with propagation of the carry.
+Under assembly language the propagation of the carry is natively supported. All additions/subtraction are inline ASM, they does make any call
+to the libvli.
+
+\subsection clmul Classical multiplication
+
+The multiplication is based on the schoolbook algorithm 
+
+\verbatim
+
+    +----------+----------+
+    |    x1    |    x0    |
+    +----------+----------+
+    +----------+----------+
+    |    y1    |    y0    |
+    +----------+----------+
+         z1         z0
+         z1
+    +----------+----------+
+    |    z1    |    z0    |
+    +----------+----------+
+
+\endverbatim
+
+The sign of this operation is natively determined. For the  extended multiplication, we just extend this algorithm,
+
+\verbatim
+
+                         +----------+----------+
+                         |    x1    |    x0    |
+                         +----------+----------+
+                         +----------+----------+
+                         |    y1    |    y0    |
+                         +----------+----------+
+                   z2         z1         z0
+        z3         z2         z1
+   +----------+----------+----------+----------+
+   |    z3    |    z2    |    z1    |    z0    |
+   +----------+----------+----------+----------+
+
+\endverbatim
+
+The classical algorithm is  an  \f$O(N^{2}) \f$ algorithm.
+This Algorithm works natively with unsigned number but it necessitates a few adaptation for the signed number. Presently input are converted
+to positive value, and the sign is adjusted at the end of the calculation. Multiplications operations required the link the libvli. 
+
+
+\subsection kamul Karatsuba  multiplication
+
+
+The Karatsuba multiplication algorithm is described in Knuth section 4.3.3 part A, and various other textbooks. A brief description is given here.
+
+The inputs x and y are treated as each split into two parts of equal length (or the most significant part one limb shorter if N is odd).
+
+\verbatim
+
+     high              low
+    +----------+----------+
+    |    x1    |    x0    |
+    +----------+----------+
+     
+    +----------+----------+
+    |    y1    |    y0    |
+    +----------+----------+
+
+\endverbatim
+
+
+
+Let b be the power of 2 where the split occurs, i.e. if x0 is k limbs (y0 the same) then \f$ b=2^{(k*mp\_bits\_per\_limb)} \f$. With that \f$ x=x1*b+x0 \f$ 
+and \f$ y=y1*b+y0 \f$, and the following holds,
+
+\f[
+         x*y = (b^2+b)*x1*y1 - b*(x1-x0)*(y1-y0) + (b+1)*x0*y0 
+\f]
+
+This formula means doing only three multiplies of \f$ (N/2)\times(N/2) \f$ limbs, whereas a basecase multiply of NxN limbs is equivalent to four multiplies of \f$ (N/2)\times(N/2) \f$.
+The factors \f$ (b^2+b) \f$ etc represent the positions where the three products must be added.
+
+\verbatim
+
+     high                              low
+    +--------+--------+ +--------+--------+
+    |      x1*y1      | |      x0*y0      |
+    +--------+--------+ +--------+--------+
+              +--------+--------+
+          add |      x1*y1      |
+              +--------+--------+
+              +--------+--------+
+          add |      x0*y0      |
+              +--------+--------+
+              +--------+--------+
+          sub | (x1-x0)*(y1-y0) |
+              +--------+--------+
+
+\endverbatim
+
+
+The term \f$ (x1-x0)\times(y1-y0) \f$ is best calculated as an absolute value, and the sign used to choose to add or subtract. 
+Karatsuba multiplication is asymptotically an  \f$O(N^{1.585}) \f$ algorithm, the exponent being \f$ log(3)/log(2) \f$, representing 3 multiplies each 1/2 the size of the inputs. This is a big improvement over the basecase multiply at  \f$O({N^2}) \f$ and the advantage soon overcomes the extra additions Karatsuba performs
+
+\note
+   The Karatsuba multiplication is only implemented for GPU for 256-bit extended multiplication.
+   The Karatsuba text comes from the GMP documentation : http://gmplib.org/manual/Karatsuba-Multiplication.html
+
+\endnote
+
+
+\section algopoly Algorithms apply on vli::polynomial
+
+The polynomials support additions, subtractions and multiplications with other polynomials or monomials. Implementations is usual as in mathematic books. 
+We also provide a special multiplication function returning a polynomial with truncation order \f$ 2N \f$, such that no terms are dropped. 
+
+The library allows inner products of large vector with symbolic polynomials as components, where the coefficients are large integer. We implemented two optimized 
+inner product functions. 
+    -# a multithreaded inner product by element-wise polynomial-polynomial multiplications using the implementation of the polynomial.  This operations may use OpenMP by splitting and distributing equal-sized chunks of the vectors among the available threads. Since all  polynomials are of the same structure the work is well balanced between the threads.
+    -# a GPU inner product, the GPU perform element-wise polynomial multiplications where each GPU thread calculates one coefficient: \f$ c_{IJKL} = \sum_{i,j,k,l} a_{ijkl} \cdot b_{I-i,J-j,K-k,L-l} \f$.   Once all coefficients are calculated, a reduction is performed over the result vector to obtain the final result of the inner product.
+        This way we avoid race conditions and minimize the number of synchronization points.
+
+Both method can be combined by splitting the inputs vector and distribute the calculation between the CPU threads and GPU. The splitting parameter is parameter of cmake file
+and can be changed ccmake. 
+
+*/

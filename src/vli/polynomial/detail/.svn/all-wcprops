@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial/detail
+END
+helpers.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial/detail/helpers.hpp
+END
+polynomial_impl.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial/detail/polynomial_impl.hpp
+END
+storage.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/hp2c/hp2c/!svn/ver/3045/branches/vli_release/src/vli/polynomial/detail/storage.hpp
+END
