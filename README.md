@@ -1,4 +1,4 @@
-# vli
+# Very Large Integer
 VLI is a library written in C++ for high but fixed precision (128 to 512-bit) arithmetic 
 and symbolic polynomials computations. The speed of VLI is achieved by using standard algorithms, 
 but based on a stack allocation approach with highly optimized assembly language core kernels for 
@@ -53,6 +53,7 @@ template parameter and it must be a multiple of 64-bit between [128-512] bit.
 
     vli::integer<192> a;
     vli::integer<460> b; 
+
 The polynomials are represented by a template class vli::polynomial
 
     polynomial< CoeffType, Structure, Var0, Var1, Var2, Var3 > 
@@ -64,12 +65,13 @@ Finally, the Var indicates the variables of the polynomial, it must be declared 
 
 To summarize, a dense polynomials of one variable, order 10 with 128-bit coefficient is declared by:
 
-   typedef vli::integer<128> integer;
-   vli::polynomial< integer, vli::max_order_each<10>, vli::var<'x'>  > p; 
+    typedef vli::integer<128> integer;
+    vli::polynomial< integer, vli::max_order_each<10>, vli::var<'x'>  > p; 
+
 whereas the equivalent triangular polynomial will be:
 
-   typedef vli::integer<128> integer;
-   vli::polynomial< integer, vli::max_order_combined<10>, vli::var<'x'>  > p; 
+    typedef vli::integer<128> integer;
+    vli::polynomial< integer, vli::max_order_combined<10>, vli::var<'x'>  > p; 
    
    HEADERS AND LIBRARY
    
@@ -81,8 +83,8 @@ All programs using VLI must be link against the libvli library, as usual on linu
 If the library is installed in the standard location
 
     g++  my_program.cpp -lvli
-                            
-If VLI has been installed to a non-standard location then it may be necessary to use -I and -L compiler
+ 
+ If VLI has been installed to a non-standard location then it may be necessary to use -I and -L compiler
 options to point to the right directories.
 
 The first tutorial illustrates the construction of VLI numbers. A basic example is:
@@ -113,8 +115,10 @@ or alternatively,
 
     vli::integer<128> a;
     a = -1;
-Negative numbers are constructed with the two complementary method. Thus, the hexadecimal print will be :
+Negative numbers are constructed with the two complementary method. Thus, the hexadecimal print will be 
+
     0xffffffffffffffff 0xffffffffffffffff
+
 The last possibility to initiate a number is the operators brackets [], as they allow a direct access to the container.
 
     vli::integer<256> a;
@@ -136,10 +140,12 @@ The second tutorial illustrates the arithmetic operations between large integer 
     a[0] = -1;
     c = a+b; // less performable, it necessitates an extra copy due to operator=
     a += 3; // alternative if the right value fits into 64-bit. In both case a and c will have the same value. The same think can be applied for subtraction
+
     vli::integer<128> a(1),b(3);
     a -= b; We will obtain
     -2 // decimal form
     0xffffffffffffffff 0xfffffffffffffffe // hexadecimal form
+
 For the optimuma performances, the user should privilege for the addition operations with the following order.
 
 integer<NumBits> += long
