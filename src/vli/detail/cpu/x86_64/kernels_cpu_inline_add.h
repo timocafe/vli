@@ -65,22 +65,22 @@ namespace vli{
 
 #define VLI_EIGHT_MULTIPLY(n)    BOOST_PP_STRINGIZE(BOOST_PP_MUL(n,8))
 
-#define VLI_ADDITION( z, n, unused) "movq "VLI_EIGHT_MULTIPLY(n)"(%[y]), %[tmp_register] \n\t" \
-     BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adcq),BOOST_PP_STRINGIZE(addq))" %[tmp_register], "VLI_EIGHT_MULTIPLY(n)"(%[x]) \n\t" \
+#define VLI_ADDITION( z, n, unused) "movq " VLI_EIGHT_MULTIPLY(n)"(%[y]), %[tmp_register] \n\t" \
+     BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adcq),BOOST_PP_STRINGIZE(addq))" %[tmp_register], " VLI_EIGHT_MULTIPLY(n)"(%[x]) \n\t" \
 
-#define VLI_ADDITION2(z, n, unused) "movq "VLI_EIGHT_MULTIPLY(n)"(%[y],%[counter],8), %[tmp_register]\n\t" \
-                                    "adcq %[tmp_register], "VLI_EIGHT_MULTIPLY(n)"(%[x], %[counter], 8)\n\t" \
+#define VLI_ADDITION2(z, n, unused) "movq " VLI_EIGHT_MULTIPLY(n)"(%[y],%[counter],8), %[tmp_register]\n\t" \
+                                    "adcq %[tmp_register], " VLI_EIGHT_MULTIPLY(n)"(%[x], %[counter], 8)\n\t" \
 
-#define VLI_ADDITION3(z, n, unused)  BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adcq %[constante2]),BOOST_PP_STRINGIZE(addq %[tmp_register]))", "VLI_EIGHT_MULTIPLY(n)"(%[x]) \n\t"
+#define VLI_ADDITION3(z, n, unused)  BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adcq %[constante2]),BOOST_PP_STRINGIZE(addq %[tmp_register]))", " VLI_EIGHT_MULTIPLY(n)"(%[x]) \n\t"
 
 #define VLI_ADDITION4(n) BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adcq %[constante2]),BOOST_PP_STRINGIZE(addq %[tmp_register]))", (%[x], %[counter], 8)\n\t"
 
-#define VLI_ADDITION5(z, n, unused) "adcq %[constante2], "VLI_EIGHT_MULTIPLY(n)"(%[x], %[counter], 8)\n\t"
+#define VLI_ADDITION5(z, n, unused) "adcq %[constante2], " VLI_EIGHT_MULTIPLY(n)"(%[x], %[counter], 8)\n\t"
 
 #define VLI_ADDITION6(z, n, unused)                                      \
-              "movq "VLI_EIGHT_MULTIPLY(n)"(%[y]), %[tmp_register] \n\t" \
-              BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adcq),BOOST_PP_STRINGIZE(addq))" "VLI_EIGHT_MULTIPLY(n)"(%[w]), %[tmp_register] \n\t" \
-              "movq %[tmp_register], "VLI_EIGHT_MULTIPLY(n)"(%[x]) \n\t" \
+              "movq " VLI_EIGHT_MULTIPLY(n)"(%[y]), %[tmp_register] \n\t" \
+              BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adcq),BOOST_PP_STRINGIZE(addq))" " VLI_EIGHT_MULTIPLY(n)"(%[w]), %[tmp_register] \n\t" \
+              "movq %[tmp_register], " VLI_EIGHT_MULTIPLY(n)"(%[x]) \n\t" \
 
 
 
@@ -141,7 +141,7 @@ struct helper_inline_add<NumWords,typename boost::enable_if_c< NumWords == BOOST
               VLI_GENERATE_ADDITION6(m) \
               "movq %4, %[tmp_register] \n\t" \
               "adcq %5, %[tmp_register] \n\t" \
-              "movq %[tmp_register], "BOOST_PP_STRINGIZE(BOOST_PP_MUL(8,BOOST_PP_ADD(m,2)))"(%[x]) \n\t" \
+              "movq %[tmp_register], " BOOST_PP_STRINGIZE(BOOST_PP_MUL(8,BOOST_PP_ADD(m,2)))"(%[x]) \n\t" \
         : [tmp_register] "=&r" (tmp_register) \
         : [x] "r" (x), [y] "r" (y),[w] "r" (w), "r" (tmp1), "r" (tmp2) \
         : "memory", "cc"); \

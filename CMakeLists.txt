@@ -144,6 +144,7 @@ add_subdirectory( src/vli/ )
 ########################################################################
 if(VLI_MAIN)
     add_subdirectory(main/)
+    add_subdirectory(benchmark/)
 endif()
 
 ########################################################################

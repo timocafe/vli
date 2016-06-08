@@ -57,17 +57,17 @@
 
 namespace vli{
     namespace detail{
-        
+
 #define VLI_EIGHT_MULTIPLY(n)    BOOST_PP_STRINGIZE(BOOST_PP_MUL(n,8))
 
-#define VLI_SUBTRACTION( z, n, unused) "movq "VLI_EIGHT_MULTIPLY(n)"(%[y]), %[tmp_register] \n\t" \
-     BOOST_PP_IF(n,BOOST_PP_STRINGIZE(sbbq),BOOST_PP_STRINGIZE(subq))" %[tmp_register], "VLI_EIGHT_MULTIPLY(n)"(%[x]) \n\t" \
+#define VLI_SUBTRACTION( z, n, unused) "movq " VLI_EIGHT_MULTIPLY(n)"(%[y]), %[tmp_register] \n\t" \
+     BOOST_PP_IF(n,BOOST_PP_STRINGIZE(sbbq),BOOST_PP_STRINGIZE(subq))" %[tmp_register], " VLI_EIGHT_MULTIPLY(n)"(%[x]) \n\t" \
 
-#define VLI_SUBTRACTION2(z, n, unused) "movq "VLI_EIGHT_MULTIPLY(n)"(%[y],%[counter],8), %[tmp_register]\n\t" \
-    "sbbq %[tmp_register], "VLI_EIGHT_MULTIPLY(n)"(%[x], %[counter], 8)\n\t" \
+#define VLI_SUBTRACTION2(z, n, unused) "movq " VLI_EIGHT_MULTIPLY(n)"(%[y],%[counter],8), %[tmp_register]\n\t" \
+    "sbbq %[tmp_register], " VLI_EIGHT_MULTIPLY(n)"(%[x], %[counter], 8)\n\t" \
 
 #define VLI_SUBTRACTION3(z, n, unused) \
-     BOOST_PP_IF(n,BOOST_PP_STRINGIZE(sbbq %[constante2]),BOOST_PP_STRINGIZE(subq %[tmp_register]))", "VLI_EIGHT_MULTIPLY(n)"(%[x]) \n\t"
+     BOOST_PP_IF(n,BOOST_PP_STRINGIZE(sbbq %[constante2]),BOOST_PP_STRINGIZE(subq %[tmp_register]))", " VLI_EIGHT_MULTIPLY(n)"(%[x]) \n\t"
 
 #define VLI_GENERATE_SUBTRACTION(m)  BOOST_PP_REPEAT(BOOST_PP_ADD(m,2), VLI_SUBTRACTION, ~)
 
