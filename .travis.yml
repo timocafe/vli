@@ -10,8 +10,6 @@ language: cpp
 compiler:
   - clang
   - gcc
-dist:
-  - trusty
 os:
   - linux
 before_script:
