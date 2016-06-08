@@ -28,6 +28,6 @@ script:
 notifications:
   email:
     recipients:
-      - timothee.ewart@epfl.ch
+      - timothee.ewart@gmail.com
     on_success: change
     on_failure: always
