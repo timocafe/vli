@@ -107,8 +107,10 @@ endif (VLI_COMPILE_GPU)
     endif (GMP_FOUND)
 #endif (VLI_TESTS)
 
-set(BOOST_ROOT ${BOOST_DIR})
-find_package (Boost COMPONENTS unit_test_framework random)
+find_package(Boost 1.44 REQUIRED unit_test_framework random)
+
+#set(BOOST_ROOT ${BOOST_DIR})
+#find_package (Boost COMPONENTS unit_test_framework random)
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
 else()
