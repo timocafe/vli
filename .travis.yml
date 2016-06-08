@@ -14,7 +14,7 @@ os:
   - linux
 before_script:
   - sudo apt-get -qq update
-  - sudo apt-get install libboost-all-dev cmake
+  - sudo apt-get install libboost-random1.53-dev libboost-test1.53-dev libboost-system1.53-dev cmake
   - sudo apt-get install software-properties-common
   - sudo apt-get install libgmp-dev
   - mkdir build
