@@ -39,8 +39,7 @@
 #include <iostream>
 #ifdef VLI_FUZZ_TESTS
 #include <boost/lexical_cast.hpp>
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_int_distribution.hpp>
+#include <random>
 #endif // VLI_FUZZ_TESTS
 
 #ifdef VLI_FUZZ_TESTS
@@ -144,10 +143,10 @@ struct initializer {
 };
 #ifdef VLI_FUZZ_TESTS
 struct fuzz_initializer {
-      static boost::random::mt19937                                           rng;
-      static boost::random::uniform_int_distribution<integer_type::value_type>    integer_value_type_max_rnd;
-      static boost::random::uniform_int_distribution<int>                     int_plus_rnd;
-    static unsigned int                                                     fuzz_iterations;
+      static std::mt19937                                           rng;
+      static std::uniform_int_distribution<integer_type::value_type>    integer_value_type_max_rnd;
+      static std::uniform_int_distribution<int>                     int_plus_rnd;
+      static unsigned int                                                  fuzz_iterations;
     void operator()(integer_type& v, variant_enum variant = overflow_safe) {
         for(std::size_t i=0; i != integer_type::numwords; ++i)
             v[i] = integer_value_type_max_rnd(rng);
@@ -199,9 +198,9 @@ struct fuzz_initializer {
     }
 };
 unsigned int                                                  fuzz_initializer::fuzz_iterations        = 0;
-boost::random::mt19937                                        fuzz_initializer::rng;
-boost::random::uniform_int_distribution<integer_type::value_type> fuzz_initializer::integer_value_type_max_rnd = boost::random::uniform_int_distribution<integer_type::value_type>(0,std::numeric_limits<integer_type::value_type>::max());
-boost::random::uniform_int_distribution<int>                  fuzz_initializer::int_plus_rnd           = boost::random::uniform_int_distribution<int>(0,std::numeric_limits<int>::max());
+std::mt19937                                        fuzz_initializer::rng;
+std::uniform_int_distribution<integer_type::value_type> fuzz_initializer::integer_value_type_max_rnd = std::uniform_int_distribution<integer_type::value_type>(0,std::numeric_limits<integer_type::value_type>::max());
+std::uniform_int_distribution<int>                  fuzz_initializer::int_plus_rnd           = std::uniform_int_distribution<int>(0,std::numeric_limits<int>::max());
 #endif // VLI_FUZZ_TESTS
 
 
