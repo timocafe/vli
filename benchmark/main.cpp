@@ -26,18 +26,6 @@ int main(int argc, char * argv[]){
    std::ostream_iterator<integer> out_it (std::cout << std::hex,"\n");
     
    std::sort(v.begin(),v.end());
+   //nice print
    std::copy(v.begin(),v.end(),out_it);
-   
-//   typedef vli::polynomial< integer_type_cpu_128, vli::max_order_each<10>, vli::var<'x'> > polynomial_type_each_x_128;
-//   typedef vli::vector<polynomial_type_each_x_128> vector_polynomial_type_each_x_128;
-//   vector_polynomial_type_each_x_128 v(128);
-//   polynomial_type_each_x_128 p;
-//   p(0) = 0;
-//   p(1) = 1;
-//   p(2) = 2;
-//   p(3) = 3;
-//   p(4) = 4;
-//
-//    std::cout << p << std::endl;
-
 }
