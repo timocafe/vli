@@ -6,17 +6,23 @@
 # @author Tim Ewart
 #
 
+sudo: false
 language: cpp
 compiler:
-  - clang
   - gcc
-os:
-  - linux
+  - clang
+install:
+- if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.8
+    - g++-4.8
+    - clang
+    - boost
 before_script:
-  - sudo apt-get -qq update
-  - sudo apt-get install libboost-all-dev cmake
-  - sudo apt-get install software-properties-common
-  - sudo apt-get install libgmp-dev
   - mkdir build
   - cd build
   - cmake -DVLI_TESTS=on ..
