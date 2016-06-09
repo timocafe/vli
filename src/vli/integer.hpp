@@ -29,8 +29,9 @@
 
 #ifndef VLI_VLI_HPP
 #define VLI_VLI_HPP
+
 #include "vli/function_hooks/vli_number_cpu_function_hooks.hpp"
-#include <boost/lexical_cast.hpp>
+
 #include <boost/operators.hpp>
 
 #include <cstdint>
@@ -63,10 +64,6 @@ namespace vli {
         std::swap(integer_a.data_,integer_b.data_);
     }
 
-    // Karatsuba stuff
-    struct copy_msb_tag{}; // Most Significant Bits
-    struct copy_lsb_tag{}; // Least Significant Bits
-    struct copy_right_shift_tag{}; // for the shift copy
     /* \endcond */
     
     /*! \class integer
@@ -94,9 +91,9 @@ namespace vli {
          boost::xorable<integer<NumBits> >
     {
     public:
-        /*! \brief The value type of the integer number: a 64-bit unsigned integer (x85-64, power64), or 32-bit unsigned (arm) */
+        /*! \brief The value type of the integer number: a 64-bit unsigned integer (x85-64, power64),
+                 or 32-bit unsigned (arm) */
         typedef uint64_t      value_type;
-    public:
         /*! \brief The size of the integer [bit] */
         static const std::size_t numbits = NumBits;
 
@@ -104,8 +101,7 @@ namespace vli {
         static const std::size_t numwords = (NumBits+std::numeric_limits<value_type>::digits-1)
                                                 /std::numeric_limits<value_type>::digits; // (63/64)
 
-    
-         /* \cond I do not need this part in the doc*/
+        /* \cond I do not need this part in the doc*/
         typedef value_type*             iterator;
         typedef const value_type*       const_iterator;
         typedef value_type&             reference;
@@ -132,12 +128,7 @@ namespace vli {
           Copy constructor and destructor are generated automatically by the compiler.
          */
         explicit integer(long int num);
-        /* \cond I do not need this part in the doc*/
-        integer(integer<2*NumBits> const&, copy_lsb_tag);
-        integer(integer<2*NumBits> const&, copy_msb_tag);
-        integer(integer<NumBits/2> const&, copy_right_shift_tag);
-        integer(integer<NumBits/2> const&, integer<NumBits/2> const&, copy_right_shift_tag);//just  coherence previous one
-        /* \endcond */
+
 #if defined __GNU_MP_VERSION
         // TODO find a better solution for this.
         operator mpz_class() const;
@@ -151,13 +142,13 @@ namespace vli {
          \brief Give a write acces to the element of the integer number
          \param i unsigned 64-bit int
          */
-        value_type& operator[](size_type i);
+        reference operator[](size_type i);
         /**
          \fn value_type& operator[](size_type i) const
          \brief Give a read acces to the element of the integer number
          \param i unsigned 64-bit int
          */
-        const value_type& operator[](size_type i) const;
+        const_reference operator[](size_type i) const;
         // c - negative number
         /* \cond I do not need this part in the doc*/
         void negate();
@@ -428,7 +419,7 @@ namespace vli {
      */
     template <std::size_t NumBits>
     void multiply_add(integer<2*NumBits>& integer_res,
-                      integer<NumBits> const&  integer_a,
+                      integer<NumBits> const& integer_a,
                       integer<NumBits> const& integer_b); // C
 
     /**
@@ -436,7 +427,7 @@ namespace vli {
           As classical iostream, the integer stream allows hexadecimal e.g. std::cout << or std::cout << std::hex <<
     */
     template <std::size_t NumBits>
-    std::ostream& operator<< (std::ostream& os,  integer<NumBits> const& );
+    std::ostream& operator<< (std::ostream& os, integer<NumBits> const& );
 }
 
 #include <vli/integer.ipp>

@@ -79,30 +79,6 @@ integer<NumBits>::integer(long int num) {
     std::fill(begin()+1,end(),a);
 }
 
-template <std::size_t NumBits>
-integer<NumBits>::integer(integer<2*NumBits> const& integer_a, copy_lsb_tag){
-    std::copy(integer_a.begin()+numwords,integer_a.end(),begin());
-}
-    
-template <std::size_t NumBits>
-integer<NumBits>::integer(integer<2*NumBits> const& integer_a, copy_msb_tag){
-    std::copy(integer_a.begin(),integer_a.end(),begin());
-}
-
-template <std::size_t NumBits>
-integer<NumBits>::integer(integer<NumBits/2> const& integer_a, copy_right_shift_tag){
-    std::fill(begin(),end(),0);
-    std::copy(integer_a.begin(),integer_a.begin()+integer<NumBits/2>::numwords,begin()+(numwords>>2));
-}
-
-template <std::size_t NumBits>
-integer<NumBits>::integer(integer<NumBits/2> const& integer_a,
-                          integer<NumBits/2> const& integer_b,
-                          copy_right_shift_tag){
-    std::copy(integer_a.begin(),integer_a.begin()+integer<NumBits/2>::numwords,begin());
-    std::copy(integer_b.begin(),integer_b.begin()+integer<NumBits/2>::numwords,begin()+(numwords>>1));
-}
-    
 #if defined __GNU_MP_VERSION
 template <std::size_t NumBits>
 integer<NumBits>::operator mpz_class() const{
@@ -117,13 +93,13 @@ integer<NumBits>::operator mpq_class() const{
 
 
 template <std::size_t NumBits>
-typename integer<NumBits>::value_type& integer<NumBits>::operator[](size_type i){
+typename integer<NumBits>::reference integer<NumBits>::operator[](size_type i){
     assert( i < numwords );
     return *(data_+i);
 }
 
 template <std::size_t NumBits>
-const typename integer<NumBits>::value_type& integer<NumBits>::operator[](size_type i) const{
+typename integer<NumBits>::const_reference integer<NumBits>::operator[](size_type i) const{
     assert( i < numwords );
     return *(data_+i);
 }
@@ -188,8 +164,7 @@ integer<NumBits>& integer<NumBits>::operator = (long int const num){
     std::fill(begin()+1,end(),a);
     return *this;
 }
-    
-    
+
 template <std::size_t NumBits>
 integer<NumBits>& integer<NumBits>::operator >>= (long int const a){
     assert( a >= 0 );
@@ -377,7 +352,7 @@ void integer<NumBits>::print_raw(std::ostream& os) const{
 
 template <std::size_t NumBits>
 void integer<NumBits>::print(std::ostream& os) const{
-    os<<get_str();
+    os << get_str();
 }
 
 /**
@@ -468,9 +443,9 @@ std::string integer<NumBits>::get_str_helper_inplace(integer<NumBits>& value, si
     value-= digit*dec;
 
     if(ten_exp <= 0)
-        return boost::lexical_cast<std::string>(digit);
+        return std::to_string(digit);
     else
-        return boost::lexical_cast<std::string>(digit)+get_str_helper_inplace(value,ten_exp-1);
+        return std::to_string(digit)+get_str_helper_inplace(value,ten_exp-1);
 }
 
 // free function algebra 
