@@ -554,6 +554,13 @@ const integer<NumBits> operator | (integer<NumBits> const& integer_a, integer<Nu
     return tmp;
 }
 
+template <std::size_t NumBits>
+const integer<NumBits> operator % (integer<NumBits> const& integer_a, integer<NumBits> const& integer_b){
+    integer<NumBits> tmp(integer_a);
+    tmp %= integer_b;
+    return tmp;
+}
+
 //stream
 template <std::size_t NumBits>
 std::ostream& operator<< (std::ostream& os,  integer<NumBits> const& integer){

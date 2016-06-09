@@ -76,12 +76,12 @@ namespace vli {
      */
     template<std::size_t NumBits>
     class integer
-        :boost::equality_comparable<integer<NumBits> >,
+        :
+         boost::equality_comparable<integer<NumBits> >,
          boost::less_than_comparable<integer<NumBits> >,
-         boost::less_than_comparable<integer<NumBits>, long int>,
+         boost::less_than_comparable<integer<NumBits>, long int>
          boost::left_shiftable<integer<NumBits>, long int>,
-         boost::right_shiftable<integer<NumBits>, long int>,
-         boost::modable<integer<NumBits> >
+         boost::right_shiftable<integer<NumBits>, long int>
     {
     public:
         /*! \brief The value type of the integer number: a 64-bit unsigned integer (x85-64, power64),
@@ -396,6 +396,19 @@ namespace vli {
      */
     template <std::size_t NumBits>
     const integer<NumBits> operator ^ (integer<NumBits> const &integer_a, integer<NumBits> const &integer_b);
+
+
+    /**
+     \brief modulo between an integer<NumBits> and an integer<NumBits> int
+     \return integer<NumBits>
+     \param integer_a integer<NumBits>
+     \param integer_b integer<NumBits>
+     This operator performs a modulo between two integer,
+     the return has the same size than the input.
+     The ASM solver is specific.
+     */
+    template <std::size_t NumBits>
+    const integer<NumBits> operator % (integer<NumBits> const &integer_a, integer<NumBits> const &integer_b);
 
     /**
      \brief Addition between an integer<NumBits> and a signed 64-bit int

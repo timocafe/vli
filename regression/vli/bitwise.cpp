@@ -34,49 +34,46 @@ VLI_STATIC_TEST(bitwise_and)
 {
     integer_type a;
     integer_type b;
-    integer_type c;
 
     init(a);
 
     integer_type one(-1);
     integer_type zero(0);
 
-    c = a&one;
-    BOOST_CHECK_EQUAL(a,c);
-    c = a&zero;
-    BOOST_CHECK_EQUAL(c,zero);
+    b = a&one;
+    BOOST_CHECK_EQUAL(a,b);
+    b = a&zero;
+    BOOST_CHECK_EQUAL(b,zero);
 }
 
 VLI_STATIC_TEST(bitwise_or)
 {
     integer_type a;
     integer_type b;
-    integer_type c;
 
     init(a);
 
     integer_type one(-1);
     integer_type zero(0);
 
-    c = a|one;
-    BOOST_CHECK_EQUAL(c,one);
-    c = a|zero;
-    BOOST_CHECK_EQUAL(c,a);
+    b = a|one;
+    BOOST_CHECK_EQUAL(b,one);
+    b = a|zero;
+    BOOST_CHECK_EQUAL(b,a);
 }
 
 VLI_STATIC_TEST(bitwise_xor)
 {
     integer_type a;
     integer_type b;
-    integer_type c;
 
     init(a);
 
     integer_type one(-1);
     integer_type zero(0);
 
-    c = a|one;
-    BOOST_CHECK_EQUAL(c,one);
-    c = a|zero;
-    BOOST_CHECK_EQUAL(c,a);
+    b = a|one;
+    BOOST_CHECK_EQUAL(b,one);
+    b = a|zero;
+    BOOST_CHECK_EQUAL(b,a);
 }
