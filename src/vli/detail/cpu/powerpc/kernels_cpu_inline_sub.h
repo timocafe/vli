@@ -65,14 +65,14 @@ namespace vli{
 
 #define VLI_EIGHT_MULTIPLY(n)    BOOST_PP_STRINGIZE(BOOST_PP_MUL(n,8))
 
-#define VLI_SUBTRACTION( z, n, unused) "ld %[tmp_register1],"VLI_EIGHT_MULTIPLY(n)"(%[x])   \n\t" \
-                                       "ld %[tmp_register2],"VLI_EIGHT_MULTIPLY(n)"(%[y])   \n\t" \
+#define VLI_SUBTRACTION( z, n, unused) "ld %[tmp_register1]," VLI_EIGHT_MULTIPLY(n)"(%[x])   \n\t" \
+                                       "ld %[tmp_register2]," VLI_EIGHT_MULTIPLY(n)"(%[y])   \n\t" \
                                         BOOST_PP_IF(n,BOOST_PP_STRINGIZE(subfe),BOOST_PP_STRINGIZE(subfc))" %[tmp_register1], %[tmp_register2] , %[tmp_register1] \n\t" \
-                                       "std %[tmp_register1],"VLI_EIGHT_MULTIPLY(n)"(%[x])  \n\t" \
+                                       "std %[tmp_register1]," VLI_EIGHT_MULTIPLY(n)"(%[x])  \n\t" \
 
-#define VLI_SUBTRACTION3( z, n, unused) "ld %[tmp_register1],"VLI_EIGHT_MULTIPLY(BOOST_PP_ADD(n,1))"(%[x])   \n\t" \
+#define VLI_SUBTRACTION3( z, n, unused) "ld %[tmp_register1]," VLI_EIGHT_MULTIPLY(BOOST_PP_ADD(n,1))"(%[x])   \n\t" \
                                         "subfe %[tmp_register1], %4,  %[tmp_register1]\n\t" \
-                                        "std %[tmp_register1],"VLI_EIGHT_MULTIPLY(BOOST_PP_ADD(n,1))"(%[x])  \n\t" \
+                                        "std %[tmp_register1]," VLI_EIGHT_MULTIPLY(BOOST_PP_ADD(n,1))"(%[x])  \n\t" \
 
 #define VLI_GENERATE_SUBTRACTION(m)  BOOST_PP_REPEAT(BOOST_PP_ADD(m,2), VLI_SUBTRACTION, ~)
 

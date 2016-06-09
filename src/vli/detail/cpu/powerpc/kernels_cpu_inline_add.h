@@ -21,7 +21,7 @@
 //leal    8(,%eax,4), %eax         # Arithmetic: multiply eax by 4 and add 8
 //leal    (%eax,%eax,2), %eax      # Arithmetic: multiply eax by 2 and add eax (i.e. multiply by 3)
 
-// "movq (%[y],%[counter],8), %[tmp_register]\n\t" load *(y - 0 + counter*8)
+//  " movq (%[y],%[counter],8), %[tmp_register]\n\t" load *(y - 0 + counter*8)
 
 
 #include <boost/preprocessor/arithmetic/add.hpp>
@@ -44,20 +44,20 @@ namespace vli{
 #define VLI_EIGHT_MULTIPLY(n)    BOOST_PP_STRINGIZE(BOOST_PP_MUL(n,8))
 
 #define VLI_ADDITION( z, n, unused) \
-                                    "ld %[tmp_register1],"VLI_EIGHT_MULTIPLY(n)"(%[x])   \n\t" \
-                                    "ld %[tmp_register2],"VLI_EIGHT_MULTIPLY(n)"(%[y])   \n\t" \
-                                     BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adde),BOOST_PP_STRINGIZE(addc))" %[tmp_register1], %[tmp_register1], %[tmp_register2]\n\t" \
-                                    "std %[tmp_register1],"VLI_EIGHT_MULTIPLY(n)"(%[x])  \n\t" \
+                                     " ld %[tmp_register1]," VLI_EIGHT_MULTIPLY(n)"(%[x])   \n\t" \
+                                     " ld %[tmp_register2]," VLI_EIGHT_MULTIPLY(n)"(%[y])   \n\t" \
+                                     BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adde),BOOST_PP_STRINGIZE(addc)) "  %[tmp_register1], %[tmp_register1], %[tmp_register2]\n\t" \
+                                     " std %[tmp_register1]," VLI_EIGHT_MULTIPLY(n)"(%[x])  \n\t" \
 
-#define VLI_ADDITION3( z, n, unused) "ld %[tmp_register1],"VLI_EIGHT_MULTIPLY(BOOST_PP_ADD(n,1))"(%[x])   \n\t" \
-                                     "adde %[tmp_register1], %[tmp_register1], %4\n\t" \
-                                     "std %[tmp_register1],"VLI_EIGHT_MULTIPLY(BOOST_PP_ADD(n,1))"(%[x])  \n\t" \
+#define VLI_ADDITION3( z, n, unused)  " ld %[tmp_register1]," VLI_EIGHT_MULTIPLY(BOOST_PP_ADD(n,1))"(%[x])   \n\t" \
+                                      " adde %[tmp_register1], %[tmp_register1], %4\n\t" \
+                                      " std %[tmp_register1]," VLI_EIGHT_MULTIPLY(BOOST_PP_ADD(n,1))"(%[x])  \n\t" \
 
 #define VLI_ADDITION6(z, n, unused)                                      \
-                                    "ld %[tmp_register1],"VLI_EIGHT_MULTIPLY(n)"(%[y])   \n\t" \
-                                    "ld %[tmp_register2],"VLI_EIGHT_MULTIPLY(n)"(%[w])   \n\t" \
-                                     BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adde),BOOST_PP_STRINGIZE(addc))" %[tmp_register1], %[tmp_register1], %[tmp_register2]\n\t" \
-                                    "std %[tmp_register1],"VLI_EIGHT_MULTIPLY(n)"(%[x])  \n\t" \
+                                     " ld %[tmp_register1]," VLI_EIGHT_MULTIPLY(n)"(%[y])   \n\t" \
+                                     " ld %[tmp_register2]," VLI_EIGHT_MULTIPLY(n)"(%[w])   \n\t" \
+                                     BOOST_PP_IF(n,BOOST_PP_STRINGIZE(adde),BOOST_PP_STRINGIZE(addc)) "  %[tmp_register1], %[tmp_register1], %[tmp_register2]\n\t" \
+                                     " std %[tmp_register1]," VLI_EIGHT_MULTIPLY(n)"(%[x])  \n\t" \
 
 #define VLI_GENERATE_ADDITION(m)  BOOST_PP_REPEAT(BOOST_PP_ADD(m,2), VLI_ADDITION, ~)
 
@@ -83,8 +83,8 @@ struct helper_inline_add<NumWords,typename boost::enable_if_c< NumWords == BOOST
         uint64_t tmp_register1, tmp_register2;                                                  \
         __asm__ __volatile__ (                                                                         \
             VLI_GENERATE_ADDITION(m)                                                                   \
-        : [tmp_register1] "=&r" (tmp_register1), [tmp_register2] "=&r" (tmp_register2)                  \
-        : [x] "b" (x), [y] "b" (y)                                                                     \
+        : [tmp_register1]  "=&r" (tmp_register1), [tmp_register2] "=&r" (tmp_register2)                  \
+        : [x]  "b" (x), [y] "b" (y)                                                                     \
         : "memory", "cc");                                                                             \
     };                                                                                                 \
                                                                                                        \
@@ -92,12 +92,12 @@ struct helper_inline_add<NumWords,typename boost::enable_if_c< NumWords == BOOST
         uint64_t tmp_register1, tmp_register2;                                                  \
         uint64_t constant(y >> 63);                                                             \
         __asm__ __volatile__ (                                                                         \
-            "ld %[tmp_register1],     0(%[x])      \n\t"                                               \
-            "addc  %[tmp_register1],  %[tmp_register1], %3 \n\t"                                       \
-            "std %[tmp_register1],   0(%[x])  \n\t"                                                    \
+             " ld %[tmp_register1],     0(%[x])      \n\t"                                               \
+             " addc  %[tmp_register1],  %[tmp_register1], %3 \n\t"                                       \
+             " std %[tmp_register1],   0(%[x])  \n\t"                                                    \
             VLI_GENERATE_ADDITION3(m)                                                                  \
-        : [tmp_register1] "=&r" (tmp_register1), [tmp_register2] "=r" (tmp_register2)                  \
-        : [x] "b" (x), "r" (y), "r" (constant)                                                         \
+        : [tmp_register1]  "=&r" (tmp_register1), [tmp_register2] "=r" (tmp_register2)                  \
+        : [x]  "b" (x), "r" (y), "r" (constant)                                                         \
         : "memory", "cc");                                                                             \
     };                                                                                                 \
                                                                                                        \
@@ -105,13 +105,13 @@ struct helper_inline_add<NumWords,typename boost::enable_if_c< NumWords == BOOST
         uint64_t tmp1(y[NumWords-1]),tmp2(w[NumWords-1]); \
         uint64_t tmp_register1, tmp_register2;                                                  \
         __asm__ __volatile__ ( \
-              "sradi %5, %5, 63 \n\t" \
-              "sradi %6, %6, 63 \n\t" \
+               " sradi %5, %5, 63 \n\t" \
+               " sradi %6, %6, 63 \n\t" \
               VLI_GENERATE_ADDITION6(m) \
-              "adde %[tmp_register1], %5, %6 \n\t" \
-              "std %[tmp_register1], "BOOST_PP_STRINGIZE(BOOST_PP_MUL(8,BOOST_PP_ADD(m,2)))"(%[x]) \n\t" \
-        : [tmp_register1] "=&r" (tmp_register1), [tmp_register2] "=&r" (tmp_register2)                  \
-        : [x] "b" (x), [y] "b" (y),[w] "b" (w), "r" (tmp1), "r" (tmp2) \
+               " adde %[tmp_register1], %5, %6 \n\t" \
+               " std %[tmp_register1], " BOOST_PP_STRINGIZE(BOOST_PP_MUL(8,BOOST_PP_ADD(m,2)))"(%[x]) \n\t" \
+        : [tmp_register1]  "=&r" (tmp_register1), [tmp_register2] "=&r" (tmp_register2)                  \
+        : [x]  "b" (x), [y] "b" (y),[w] "b" (w), "r" (tmp1), "r" (tmp2) \
         : "memory", "cc"); \
     }; \
 };                                                                                                     \
