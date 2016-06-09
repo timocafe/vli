@@ -30,10 +30,7 @@
 #ifndef VLI_VLI_HPP
 #define VLI_VLI_HPP
 
-#include "vli/function_hooks/vli_number_cpu_function_hooks.hpp"
-
 #include <cstdint>
-#include <vector>
 #include <string>
 #include <cassert>
 #include <cstring>
@@ -41,6 +38,8 @@
 #include <sstream>
 #include <stdexcept>
 #include <algorithm>
+
+#include "vli/function_hooks/vli_number_cpu_function_hooks.hpp"
 
 
 /*! \namespace vli
