@@ -32,8 +32,6 @@
 
 #include "vli/function_hooks/vli_number_cpu_function_hooks.hpp"
 
-#include <boost/operators.hpp>
-
 #include <cstdint>
 #include <vector>
 #include <string>
@@ -47,8 +45,7 @@
 
 /*! \namespace vli
     \brief the name space of the library
-    
-    This name space contains a lot of free functions for the main functionnalities of the library : 
+    This name space contains a lot of free functions for the main functionnalities of the library :
     arithmetic operations between integer, monomial and polynomial, as inner profucts.
 */
 namespace vli {
@@ -65,24 +62,17 @@ namespace vli {
     }
 
     /* \endcond */
-    
+
     /*! \class integer
         \brief This class models the integer<NumBits> number it is templated over the total number of bit
-     
+
         The four basics operators are included : +,-,* and / as bit operations and equality and inequality operators.
-        All theses operators conserve the number of bit. The class derived from the boost::operators package. 
+        All theses operators conserve the number of bit. The class derived from the boost::operators package.
         Per example for a given operator integer<NumBits> += integer<NumBits>  the complentary operation
         integer<NumBits> + integer<NumBits> is generated automatically.
      */
     template<std::size_t NumBits>
-    class integer
-        :
-         boost::equality_comparable<integer<NumBits> >,
-         boost::less_than_comparable<integer<NumBits> >,
-         boost::less_than_comparable<integer<NumBits>, long int>
-         boost::left_shiftable<integer<NumBits>, long int>,
-         boost::right_shiftable<integer<NumBits>, long int>
-    {
+    class integer {
     public:
         /*! \brief The value type of the integer number: a 64-bit unsigned integer (x85-64, power64),
                  or 32-bit unsigned (arm) */
@@ -107,9 +97,9 @@ namespace vli {
         const_iterator begin() const { return data_; }
         iterator end() { return data_+numwords; }
         const_iterator end() const { return data_+numwords; }
-    
+
         /* \endcond */
-    
+
         /**
          \brief Default constructor, the integer number is equal to 0, every entries of the container are set up to 0
         */
@@ -148,7 +138,7 @@ namespace vli {
         bool is_negative() const;
         /* \endcond */
         // c - basic operator
-        
+
         /**
          \fn integer<NumBits>& operator = (long int const num)
          \brief Perform a long int to vli::integer number
@@ -162,7 +152,7 @@ namespace vli {
          \param a 64-bit int
          */
         integer& operator >>= (long int const a); // bit shift
-        
+
         /**
          \fn integer<NumBits>& operator <<= (integer<NumBits> const& integer_a)
          \brief Perform a left bit shift operation on the integer<NumBits> number, it conserves the number of bits
@@ -212,7 +202,7 @@ namespace vli {
          \param integer_a integer<NumBits> number
          */
         integer& operator -= (integer const& integer_a);
-        
+
         /**
          \fn integer<NumBits>& operator -= (long int const a)
          \brief Perform a substraction between a integer<NumBits> number and a signed 64-bit int, 
@@ -227,7 +217,7 @@ namespace vli {
          \param integer_a integer<NumBits> 
          */
         integer& operator *= (integer const& integer_a);
-        
+
         /**
          \fn integer<NumBits>& operator *= (long int const a)
          \brief Perform a multiplication between a integer number<NumBits> and a  signed 64-bit int,
@@ -258,7 +248,7 @@ namespace vli {
         /* \cond I do not need this part in the doc*/
         integer operator -() const;
         /* \endcond */
-        
+
         /**
          \fn integer<NumBits>& operator == (integer<NumBits> const& integer_a) const
          \brief Test the equality between two integer<NumBits> numbers. 
@@ -268,12 +258,43 @@ namespace vli {
         bool operator == (integer const& integer_a) const; // need by boost::equality_comparable
 
         /**
+         \fn integer<NumBits>& operator != (integer<NumBits> const& integer_a) const
+         \brief Test the inequality between two integer<NumBits> numbers. 
+         \param integer_a integer<NumBits> 
+         */
+        bool operator != (integer const& integer_a) const; // need by boost::equality_comparable
+
+        /**
          \fn integer<NumBits>& operator < (integer<NumBits> const& integer_a) const
          \brief Test the inequality < between two integer<NumBits> numbers. 
          The complementary operator <=, > and >= are generated automatically by the boost operator package
          \param integer_a integer 
          */
         bool operator < (integer const& integer_a) const; // need by less_than_comparable<T>
+
+        /**
+         \fn integer<NumBits>& operator <= (integer<NumBits> const& integer_a) const
+         \brief Test the inequality <= between two integer<NumBits> numbers.
+         \param integer_a integer
+         */
+        bool operator <= (integer const& integer_a) const; // need by less_than_comparable<T>
+
+        /**
+         \fn integer<NumBits>& operator < (integer<NumBits> const& integer_a) const
+         \brief Test the inequality > between two integer<NumBits> numbers.
+         \param integer_a integer
+         */
+        bool operator > (integer const& integer_a) const; // need by less_than_comparable<T>
+
+        /**
+         \fn integer<NumBits>& operator >= (integer<NumBits> const& integer_a) const
+         \brief Test the inequality >= between two integer<NumBits> numbers.
+         \param integer_a integer
+         */
+        bool operator >= (integer const& integer_a) const; // need by less_than_comparable<T>
+
+
+
 
         /**
          \fn integer<NumBits>& operator < (long int) const
@@ -290,7 +311,7 @@ namespace vli {
          \param a signed int 64-bit
          */
         bool operator > (long int a) const; // need by less_than_comparable<T,U>
- 
+
         /* \cond I do not need this part in the doc*/
         bool is_zero() const;
         void print_raw(std::ostream& os) const;
@@ -303,7 +324,7 @@ namespace vli {
         private:
         value_type data_[numwords]; /*!< The container of the integer number a 64-bit unsigned integer */
     };
-    
+
     /* \cond */
     template <std::size_t NumBits>
     bool is_zero(integer<NumBits> const& v);

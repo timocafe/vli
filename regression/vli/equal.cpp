@@ -40,8 +40,11 @@ VLI_STATIC_TEST( equal_operator )
     {
         b[i] = 1;
         BOOST_CHECK_EQUAL((a == b),false);
+        BOOST_CHECK_EQUAL((a != b),true);
         b[i] = 0;
     }
 
     BOOST_CHECK_EQUAL(a,b);
+    BOOST_CHECK_EQUAL((a == b),true);
+    BOOST_CHECK_EQUAL((a != b),false);
 }

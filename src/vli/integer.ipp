@@ -117,9 +117,30 @@ bool integer<NumBits>::operator == (integer const& integer_a) const{
 }
 
 template <std::size_t NumBits>
+bool integer<NumBits>::operator != (integer const& integer_a) const{
+    return !(*this == integer_a);
+}
+
+template <std::size_t NumBits>
 bool integer<NumBits>::operator < (integer const& integer_a) const{
     integer tmp(*this);
     return ( (tmp -= integer_a).is_negative() );
+}
+
+template <std::size_t NumBits>
+bool integer<NumBits>::operator <= (integer const& integer_a) const{
+    integer tmp(*this);
+    return ( (tmp -= integer_a).is_negative() | (*this == integer_a) );
+}
+
+template <std::size_t NumBits>
+bool integer<NumBits>::operator > (integer const& integer_a) const{
+    return ( integer_a < *this );
+}
+
+template <std::size_t NumBits>
+bool integer<NumBits>::operator >= (integer const& integer_a) const{
+    return ( integer_a <= *this );
 }
 
 template <std::size_t NumBits>
@@ -236,7 +257,7 @@ void quotient_helper(integer<NumBits> const& integer_b, integer<NumBits>& intege
     quotient_helper(integer_b, integer_quotient, integer_rest);
 }
 
-    
+
 // Saint HPC forgives me
 template <std::size_t NumBits>
 integer<NumBits>& integer<NumBits>::operator %= (integer<NumBits> integer_a){

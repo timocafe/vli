@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include <numeric>
+#include <functional>
 
 #include "vli/integer.hpp"
 #include "vli/polynomial.hpp"
@@ -24,7 +25,7 @@ int main(int argc, char * argv[]){
    std::shuffle(vc.begin(),vc.end(), gen);
 
    std::ostream_iterator<integer> out_it (std::cout << std::hex,"\n");
-    
+
    std::sort(v.begin(),v.end());
    //nice print
    std::copy(v.begin(),v.end(),out_it);
