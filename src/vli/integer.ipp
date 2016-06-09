@@ -504,6 +504,56 @@ const integer<NumBits> operator * (long int b, integer<NumBits> const& a){
     return a*b;
 }
 
+template <std::size_t NumBits>
+const integer<NumBits> operator + (integer<NumBits> const& integer_a, integer<NumBits> const& integer_b){
+    integer<NumBits> tmp(integer_a);
+    tmp += integer_b;
+    return tmp;
+}
+
+template <std::size_t NumBits>
+const integer<NumBits> operator - (integer<NumBits> const& integer_a, integer<NumBits> const& integer_b){
+    integer<NumBits> tmp(integer_a);
+    tmp -= integer_b;
+    return tmp;
+}
+
+template <std::size_t NumBits>
+const integer<NumBits> operator * (integer<NumBits> const& integer_a, integer<NumBits> const& integer_b){
+    integer<NumBits> tmp(integer_a);
+    tmp *= integer_b;
+    return tmp;
+}
+
+template <std::size_t NumBits>
+const integer<NumBits> operator / (integer<NumBits> const& integer_a, integer<NumBits> const& integer_b){
+    integer<NumBits> tmp(integer_a);
+    tmp /= integer_b;
+    return tmp;
+}
+
+
+template <std::size_t NumBits>
+const integer<NumBits> operator ^ (integer<NumBits> const& integer_a, integer<NumBits> const& integer_b){
+    integer<NumBits> tmp(integer_a);
+    tmp ^= integer_b;
+    return tmp;
+}
+
+template <std::size_t NumBits>
+const integer<NumBits> operator & (integer<NumBits> const& integer_a, integer<NumBits> const& integer_b){
+    integer<NumBits> tmp(integer_a);
+    tmp &= integer_b;
+    return tmp;
+}
+
+template <std::size_t NumBits>
+const integer<NumBits> operator | (integer<NumBits> const& integer_a, integer<NumBits> const& integer_b){
+    integer<NumBits> tmp(integer_a);
+    tmp |= integer_b;
+    return tmp;
+}
+
 //stream
 template <std::size_t NumBits>
 std::ostream& operator<< (std::ostream& os,  integer<NumBits> const& integer){
