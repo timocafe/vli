@@ -31,10 +31,9 @@
 #define VLI_VLI_HPP
 #include "vli/function_hooks/vli_number_cpu_function_hooks.hpp"
 #include <boost/lexical_cast.hpp>
-#include <boost/cstdint.hpp> // for the type boost::uint64_t
 #include <boost/operators.hpp>
 
-//#include <initializer_list>
+#include <cstdint>
 #include <vector>
 #include <string>
 #include <cassert>
@@ -42,7 +41,7 @@
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
-#include <boost/swap.hpp>
+#include <algorithm>
 
 
 /*! \namespace vli
@@ -61,7 +60,7 @@ namespace vli {
 
     template <std::size_t NumBits>
     void swap(integer<NumBits>& integer_a, integer<NumBits>& integer_b){
-        boost::swap(integer_a.data_,integer_b.data_);
+        std::swap(integer_a.data_,integer_b.data_);
     }
 
     // Karatsuba stuff
@@ -80,20 +79,23 @@ namespace vli {
      */
     template<std::size_t NumBits>
     class integer
-        :boost::equality_comparable<integer<NumBits> >, // generate != operator
-         boost::less_than_comparable<integer<NumBits> >, // generate <= >= > < whatever the paire integer/integer
-         boost::less_than_comparable<integer<NumBits>, long int>, // generate <= >= > < whatever the paire integer/int
-         boost::addable<integer<NumBits> >, // generate integer<nbits> = VLIVLI<nbits> + integer<integer<nbits>
-         boost::subtractable<integer<NumBits> >, // generate integer<nbits> = VLIVLI<nbits> - integer<integer<nbits>
-         boost::multipliable<integer<NumBits> >, //  generate integer<nbits> = VLIVLI<nbits> * integer<integer<nbits>
-         boost::left_shiftable<integer<NumBits>, long int>, // enerate integer<nbits> = VLIVLI<nbits> << int
-         boost::right_shiftable<integer<NumBits>, long int>, //enerate integer<nbits> = VLIVLI<nbits> >> int
+        :boost::equality_comparable<integer<NumBits> >,
+         boost::less_than_comparable<integer<NumBits> >,
+         boost::less_than_comparable<integer<NumBits>, long int>,
+         boost::addable<integer<NumBits> >,
+         boost::subtractable<integer<NumBits> >,
+         boost::multipliable<integer<NumBits> >,
+         boost::left_shiftable<integer<NumBits>, long int>,
+         boost::right_shiftable<integer<NumBits>, long int>,
          boost::modable<integer<NumBits> >,
-         boost::dividable<integer<NumBits> >
+         boost::dividable<integer<NumBits> >,
+         boost::orable<integer<NumBits> >,
+         boost::andable<integer<NumBits> >,
+         boost::xorable<integer<NumBits> >
     {
     public:
         /*! \brief The value type of the integer number: a 64-bit unsigned integer (x85-64, power64), or 32-bit unsigned (arm) */
-        typedef boost::uint64_t      value_type;
+        typedef uint64_t      value_type;
     public:
         /*! \brief The size of the integer [bit] */
         static const std::size_t numbits = NumBits;
@@ -104,12 +106,12 @@ namespace vli {
 
     
          /* \cond I do not need this part in the doc*/
-        typedef boost::uint64_t*             iterator;
-        typedef const boost::uint64_t*       const_iterator;
-        typedef boost::uint64_t&             reference;
-        typedef const boost::uint64_t&       const_reference;
-        typedef std::size_t                  size_type;
-        typedef std::ptrdiff_t               difference_type;
+        typedef value_type*             iterator;
+        typedef const value_type*       const_iterator;
+        typedef value_type&             reference;
+        typedef const value_type&       const_reference;
+        typedef std::size_t             size_type;
+        typedef std::ptrdiff_t          difference_type;
 
         //iterator/stl support
         iterator begin() { return data_; }

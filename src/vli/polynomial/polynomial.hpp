@@ -104,7 +104,7 @@ class polynomial : public detail::storage<Coeff,MaxOrder,num_variables<polynomia
 
     /* \cond */
     friend void swap(polynomial& a, polynomial& b) {
-        using boost::swap;
+        using std::swap;
         swap(static_cast<base_type&>(a),static_cast<base_type&>(b));
     }
 

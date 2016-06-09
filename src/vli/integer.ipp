@@ -66,7 +66,7 @@ namespace detail {
 
 template <std::size_t NumBits>
 integer<NumBits>::integer(){
-    memset((void*)&data_[0],0,numwords*sizeof(value_type));
+    std::fill(begin(),end(),0);
 }
 
 template <std::size_t NumBits>
@@ -76,36 +76,31 @@ integer<NumBits>::integer(long int num) {
     assert( -1l >> 1 == -1l );
     data_[0] = num;
     value_type a = num >> std::numeric_limits<long int>::digits;
-    for(size_type i=1; i< numwords; ++i)
-        data_[i] = a;
+    std::fill(begin()+1,end(),a);
 }
 
 template <std::size_t NumBits>
 integer<NumBits>::integer(integer<2*NumBits> const& integer_a, copy_lsb_tag){
-    for(size_type i=0; i < numwords; ++i)
-        data_[i] = integer_a[i+numwords];
+    std::copy(integer_a.begin()+numwords,integer_a.end(),begin());
 }
     
 template <std::size_t NumBits>
 integer<NumBits>::integer(integer<2*NumBits> const& integer_a, copy_msb_tag){
-    for(size_type i=0; i < numwords; ++i)
-        data_[i] = integer_a[i];
+    std::copy(integer_a.begin(),integer_a.end(),begin());
 }
 
 template <std::size_t NumBits>
 integer<NumBits>::integer(integer<NumBits/2> const& integer_a, copy_right_shift_tag){
-    for(size_type i=0; i < numwords; ++i)
-        data_[i] = 0;
-    for(int  i=0 ; i < integer<NumBits/2>::numwords; i++)
-        data_[i+(numwords>>2)] = integer_a[i];
+    std::fill(begin(),end(),0);
+    std::copy(integer_a.begin(),integer_a.begin()+integer<NumBits/2>::numwords,begin()+(numwords>>2));
 }
 
 template <std::size_t NumBits>
-integer<NumBits>::integer(integer<NumBits/2> const& integer_a,  integer<NumBits/2> const& integer_b, copy_right_shift_tag){
-    for(int i=0; i < integer<NumBits/2>::numwords; ++i)
-        data_[i] = integer_a[i];
-    for(int i=0; i < integer<NumBits/2>::numwords; i++)
-        data_[i+(numwords>>1)] = integer_b[i];
+integer<NumBits>::integer(integer<NumBits/2> const& integer_a,
+                          integer<NumBits/2> const& integer_b,
+                          copy_right_shift_tag){
+    std::copy(integer_a.begin(),integer_a.begin()+integer<NumBits/2>::numwords,begin());
+    std::copy(integer_b.begin(),integer_b.begin()+integer<NumBits/2>::numwords,begin()+(numwords>>1));
 }
     
 #if defined __GNU_MP_VERSION
@@ -142,8 +137,7 @@ integer<NumBits> integer<NumBits>::operator-() const{
 
 template <std::size_t NumBits>
 bool integer<NumBits>::operator == (integer const& integer_a) const{
-    int n = memcmp((void*)data_,(void*)integer_a.data_,numwords*sizeof(value_type));
-    return (0 == n);
+    return std::equal(begin(),end(),integer_a.begin());
 }
 
 template <std::size_t NumBits>
@@ -172,12 +166,11 @@ bool integer<NumBits>::is_zero() const{
         result &= (data_[i] == 0);
     return result;
 }
-// c - negative number
 
+// c - negative number
 template <std::size_t NumBits>
 void integer<NumBits>::negate(){
-    for(size_type i=0; i < numwords; ++i)
-        data_[i] = (~data_[i]);
+    std::transform(begin(),end(),begin(),[](value_type v){return ~v;}); // std::bit_not c++14
     (*this)+=1;
 }
 
@@ -192,8 +185,7 @@ integer<NumBits>& integer<NumBits>::operator = (long int const num){
     assert( -1l >> 1 == -1l );
     data_[0] = num;
     value_type a = num >> std::numeric_limits<long int>::digits;
-    for(size_type i=1; i< numwords; ++i)
-        data_[i] = a;
+    std::fill(begin()+1,end(),a);
     return *this;
 }
     
@@ -230,22 +222,19 @@ integer<NumBits>& integer<NumBits>::operator <<= (long int const a){
 
 template <std::size_t NumBits>
 integer<NumBits>& integer<NumBits>::operator |= (integer const& integer_a){
-    for(std::size_t i=0; i < numwords; ++i)
-        (*this)[i] |= integer_a[i];
+    std::transform(begin(),end(),integer_a.begin(),begin(),std::bit_or<value_type>());
     return *this;
 }
 
 template <std::size_t NumBits>
 integer<NumBits>& integer<NumBits>::operator ^= (integer const& integer_a){
-    for(std::size_t i=0; i < numwords; ++i)
-        (*this)[i] ^= integer_a[i];
+    std::transform(begin(),end(),integer_a.begin(),begin(),std::bit_xor<value_type>());
     return *this;
 }
 
 template <std::size_t NumBits>
 integer<NumBits>& integer<NumBits>::operator &= (integer const& integer_a){
-    for(std::size_t i=0; i < numwords; ++i)
-        (*this)[i] &= integer_a[i];
+    std::transform(begin(),end(),integer_a.begin(),begin(),std::bit_and<value_type>());
     return *this;
 }
 

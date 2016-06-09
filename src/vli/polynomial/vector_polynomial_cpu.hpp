@@ -36,7 +36,6 @@
 #include <vector>
 #include <ostream>
 #include <cassert>
-#include <boost/swap.hpp>
 #ifdef _OPENMP
 #include <omp.h>
 #endif //_OPENMP
