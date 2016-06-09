@@ -21,7 +21,7 @@ addons:
     - gcc-4.8
     - g++-4.8
     - clang
-    - libboost-dev
+    - libboost-all-dev
     - libgmp-dev
 before_script:
   - mkdir build
