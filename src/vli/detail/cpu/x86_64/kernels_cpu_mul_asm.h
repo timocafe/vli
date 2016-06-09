@@ -56,11 +56,11 @@ namespace vli{
     namespace detail{
                      //new functions type : VLI<n*64> *= long int;
                     template <std::size_t NumWords>
-                    void mul( boost::uint64_t * x, boost::uint64_t const b);
+                    void mul( uint64_t * x, uint64_t const b);
                      
                      #define FUNCTION_mul_nbits_64bits(z, n, unused) \
                          template<>                      \
-                         void mul<(n+2)>( boost::uint64_t* x,  boost::uint64_t const b){           \
+                         void mul<(n+2)>( uint64_t* x,  uint64_t const b){           \
                          asm(                                                                                       \
                              "movq %%rsi            ,%%rax                  \n" /* a0 into rax */                   \
                              "xorq %%rcx            ,%%rcx                  \n" /* rcx to 0 */                      \
@@ -104,11 +104,11 @@ namespace vli{
 // the boost pp is very hard to understand, look hall of fame to understand what it does !!!!!!!!!!
 /* PP_REPEAT limited to 3 nested */
                        template <std::size_t NumWords>
-                       void mul( boost::uint64_t * x, boost::uint64_t const* y);
+                       void mul( uint64_t * x, uint64_t const* y);
 
                        #define BOOST_PP_LOCAL_MACRO(n) \
                           template<> \
-                          void mul<n>( boost::uint64_t* x,  boost::uint64_t const* y){ \
+                          void mul<n>( uint64_t* x,  uint64_t const* y){ \
                           asm(                                                                                            \
                               BOOST_PP_REPEAT(n, MULNTON0, BOOST_PP_SUB(n,1))                                             \
                               BOOST_PP_REPEAT(n, SAVEr_register, n) /* for saving */                                      \
@@ -123,7 +123,7 @@ namespace vli{
                        #undef BOOST_PP_LOCAL_MACRO
                        #undef BOOST_PP_LOCAL_LIMITS
 // the expansion gives
-//                      void mul192_192( boost::uint64_t* x,  boost::uint64_t const * y){
+//                      void mul192_192( uint64_t* x,  uint64_t const * y){
 //                          asm( 
 //                              "movq 16(%%rsi)         ,%%rax    \n" // 0 
 //                              "mulq 0(%%rdi)                    \n"
@@ -156,10 +156,10 @@ namespace vli{
 //                         ); 
 //                      };
                        template <std::size_t NumWords>
-                       void mul( boost::uint64_t * x, boost::uint64_t const* y, boost::uint64_t const* z);
+                       void mul( uint64_t * x, uint64_t const* y, uint64_t const* z);
 
                        template<>
-                       void mul<1>( boost::uint64_t* x/* %%rdi */,  boost::uint64_t const* y/* %%rsi */,  boost::uint64_t const* z/* %%rdx -> rcx */){
+                       void mul<1>( uint64_t* x/* %%rdi */,  uint64_t const* y/* %%rsi */,  uint64_t const* z/* %%rdx -> rcx */){
                           asm( 
                               "movq (%%rsi)          ,%%rax             \n" /* a0 into rax */                   
                               "movq %%rdx            ,%%rcx             \n" /* save a0-rcx faster than stack */ 
@@ -175,7 +175,7 @@ namespace vli{
                       //       ---------
                       // TO DO write a notice for the cryptic lines 
                           template<> // 64 instructions
-                          void mul<2>( boost::uint64_t* x/* %%rdi */,  boost::uint64_t const* y/* %%rsi */,  boost::uint64_t const* z/* %%rdx -> rbx */){
+                          void mul<2>( uint64_t* x/* %%rdi */,  uint64_t const* y/* %%rsi */,  uint64_t const* z/* %%rdx -> rbx */){
                           asm(
                               "movq %%rdx            ,%%rbx             \n" /* rdx uses by mul             */   
                               //ok start the case 1
@@ -246,7 +246,7 @@ namespace vli{
                       }
 
                      template<> //
-                      void mul<3>( boost::uint64_t* x/* %%rdi */,  boost::uint64_t const* y/* %%rsi */,  boost::uint64_t const* z/* %%rdx -> rbx */){
+                      void mul<3>( uint64_t* x/* %%rdi */,  uint64_t const* y/* %%rsi */,  uint64_t const* z/* %%rdx -> rbx */){
                                asm(
                             /*-01*/ "subq $0x30            ,%%rsp             \n" /* create stack frame */
                             /*00*/  "movq %%rdx            ,%%rbx             \n" /* rdx uses by mul             */
@@ -370,7 +370,7 @@ namespace vli{
                             }
   
                             template<>
-                             void mul<4>( boost::uint64_t* x/* %%rdi */,  boost::uint64_t const* y/* %%rsi */,  boost::uint64_t const* z/* %%rdx -> rbx */){
+                             void mul<4>( uint64_t* x/* %%rdi */,  uint64_t const* y/* %%rsi */,  uint64_t const* z/* %%rdx -> rbx */){
                                 asm( 
                                     "subq $0x50            ,%%rsp             \n" /* destroy stack frame */           
                                     "movq %%rdx            ,%%rbx             \n" /* rdx uses by mul             */   

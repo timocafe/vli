@@ -81,16 +81,16 @@ struct helper_inline_sub;
 /**
  \brief subtraction between two integer<n*128>
  \return void
- \param x boost::uint64_t* pointer of the first entry of the Integer container
- \param y boost::uint64_t* pointer of the first entry of the Integer container
+ \param x uint64_t* pointer of the first entry of the Integer container
+ \param y uint64_t* pointer of the first entry of the Integer container
  This operator performs a += between two integer<n*128> The ASM solver is specific and full unroll
  n belongs to the interval 1 to 8, 128-bit <= vli::integer<n*128>  <= 5120-bit
 */
 #define FUNCTION_INLINE_sub_nbits_nbits(z, m, unused)                                  \
 template<std::size_t NumWords>                                                                \
 struct helper_inline_sub<NumWords,typename boost::enable_if_c< NumWords == BOOST_PP_ADD(m,2)>::type>{\
-    static void inline_sub(boost::uint64_t* x, boost::uint64_t const* y){              \
-        boost::uint64_t tmp_register;                                                  \
+    static void inline_sub(uint64_t* x, uint64_t const* y){              \
+        uint64_t tmp_register;                                                  \
             __asm__ __volatile__ (                                                     \
             VLI_GENERATE_SUBTRACTION(m)                                                \
             : [tmp_register] "=&r" (tmp_register)                                      \
@@ -98,9 +98,9 @@ struct helper_inline_sub<NumWords,typename boost::enable_if_c< NumWords == BOOST
             : "memory", "cc");                                                         \
     };                                                                                 \
                                                                                        \
-        static void inline_sub(boost::uint64_t* x, boost::int64_t const y){            \
-        boost::uint64_t tmp_register;                                                  \
-        boost::uint64_t tmp_register2;                                                 \
+        static void inline_sub(uint64_t* x, boost::int64_t const y){            \
+        uint64_t tmp_register;                                                  \
+        uint64_t tmp_register2;                                                 \
         __asm__ __volatile__ (                                                         \
             "movq  %[constante],   %[tmp_register] \n\t"                               \
             "movq  %[tmp_register],   %[constante2] \n\t"                               \
@@ -120,15 +120,15 @@ BOOST_PP_REPEAT(7, FUNCTION_INLINE_sub_nbits_nbits, ~) //unroll until 512, maybe
 /**
  \brief subtraction between two integer<n*128>, n*128 > 512
  \return void
- \param x boost::uint64_t* pointer of the first entry of the Integer container
- \param y boost::uint64_t* pointer of the first entry of the Integer container
+ \param x uint64_t* pointer of the first entry of the Integer container
+ \param y uint64_t* pointer of the first entry of the Integer container
  This operator performs a -= between two integer<n*128> The ASM solver is generic
  and full unroll n belongs to the interval 1 to 8, 512-bit <= vli::integer<n*128>  */
 #define FUNCTION_INLINE_sub_nbits_nbits(z, m, unused)                                     \
 template<std::size_t n>                                                                   \
 struct helper_inline_sub<n,typename boost::enable_if_c<  ((n>8) && (n%8 == m )) >::type>{ \
-    static void inline_sub(boost::uint64_t* x, boost::uint64_t const* y){                 \
-        boost::uint64_t tmp_register, tmp_register2;                                      \
+    static void inline_sub(uint64_t* x, uint64_t const* y){                 \
+        uint64_t tmp_register, tmp_register2;                                      \
         __asm__ __volatile__ (                                                           \
             "clc\n\t"                                                                     \
             "1:\n\t"  /* OK I unroll until 8 maybe 16 a day */                            \

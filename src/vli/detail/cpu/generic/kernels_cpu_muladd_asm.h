@@ -34,11 +34,11 @@ namespace vli {
     namespace detail{
     
                    template <std::size_t NumWords>
-                   void muladd( boost::uint64_t * x, boost::uint64_t const* y, boost::uint64_t const* z);
+                   void muladd( uint64_t * x, uint64_t const* y, uint64_t const* z);
  
                    #define FUNCTION_mul_add(z, n, unused) \
                    template<>                      \
-                   void muladd<n+2>(boost::uint64_t* x, boost::uint64_t const* y, boost::uint64_t const* w){ \
+                   void muladd<n+2>(uint64_t* x, uint64_t const* y, uint64_t const* w){ \
                         mul<n+2>(x,y,w);   \
                    } \
         

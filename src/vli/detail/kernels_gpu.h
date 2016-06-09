@@ -43,7 +43,7 @@ namespace vli {
 
     #define VLI_DECLARE_GPU_FUNCTIONS(NUM_BITS, POLY_ORDER, VAR) \
         template<std::size_t NumBits, class MaxOrder, int NumVars >      \
-        void gpu_inner_product_vector(std::size_t vector_size, boost::uint64_t const* a, boost::uint64_t const* b); \
+        void gpu_inner_product_vector(std::size_t vector_size, uint64_t const* a, uint64_t const* b); \
    
     #define VLI_DECLARE_GPU_FUNCTIONS_FOR(r, data, NUMBITS_ORDER_VAR_TUPLE_SEQ) \
         VLI_DECLARE_GPU_FUNCTIONS( BOOST_PP_TUPLE_ELEM(3,0,NUMBITS_ORDER_VAR_TUPLE_SEQ), BOOST_PP_TUPLE_ELEM(3,1,NUMBITS_ORDER_VAR_TUPLE_SEQ), BOOST_PP_TUPLE_ELEM(3,2,NUMBITS_ORDER_VAR_TUPLE_SEQ) )

@@ -35,34 +35,34 @@ namespace vli{
     namespace detail{
                     template<std::size_t NumWords>
                     struct helper_inline_add{
-                        static void inline inline_add(boost::uint64_t* x, boost::uint64_t const* y){
+                        static void inline inline_add(uint64_t* x, uint64_t const* y){
                            boost::uint32_t const* cy = const_cast<boost::uint32_t*>(reinterpret_cast<boost::uint32_t const*>(y));
                            boost::uint32_t* cx = reinterpret_cast<boost::uint32_t*>(x);
                            boost::uint32_t carry(0);
                            for(int i(0); i<2*NumWords;++i){
-                              boost::uint64_t tmp = static_cast<uint64_t>(cx[i]) + cy[i] + carry;
+                              uint64_t tmp = static_cast<uint64_t>(cx[i]) + cy[i] + carry;
                               cx[i] = tmp;
                               carry = tmp >> (std::numeric_limits<boost::uint32_t>::digits);
                            }
                         }
                         
-                        static void inline inline_add(boost::uint64_t* x, boost::uint64_t const b){
+                        static void inline inline_add(uint64_t* x, uint64_t const b){
                             boost::uint32_t cb = static_cast<boost::uint32_t>(b);
                             boost::uint32_t* cx = reinterpret_cast<boost::uint32_t*>(x);
                             boost::uint32_t sign = cb >>(std::numeric_limits<boost::uint32_t>::digits - 1);
                             sign = -sign;
                             boost::uint32_t carry(0);
-                            boost::uint64_t tmp = static_cast<uint64_t>(cx[0]) + cb;
+                            uint64_t tmp = static_cast<uint64_t>(cx[0]) + cb;
                             cx[0] = tmp;
                             carry = tmp >> (std::numeric_limits<boost::uint32_t>::digits);
                             for(int i(1); i<2*NumWords;++i){
-                               boost::uint64_t tmp = static_cast<uint64_t>(cx[i]) + sign + carry;
+                               uint64_t tmp = static_cast<uint64_t>(cx[i]) + sign + carry;
                                cx[i] = tmp;
                                carry = tmp >> (std::numeric_limits<boost::uint32_t>::digits);
                             }
                         }
                         
-                        static void inline_add_extend(boost::uint64_t* x, boost::uint64_t const* y, boost::uint64_t const* w){ 
+                        static void inline_add_extend(uint64_t* x, uint64_t const* y, uint64_t const* w){ 
                              boost::uint32_t const* cw = const_cast<boost::uint32_t*>(reinterpret_cast<boost::uint32_t const*>(w));
                              boost::uint32_t const* cy = const_cast<boost::uint32_t*>(reinterpret_cast<boost::uint32_t const*>(y));
                              boost::uint32_t* cx = reinterpret_cast<boost::uint32_t*>(x);
@@ -70,11 +70,11 @@ namespace vli{
                              boost::uint32_t sign_z = - (cw[2*(NumWords)-1] >>( std::numeric_limits<boost::uint32_t>::digits - 1));
                              boost::uint32_t carry(0);
                              for(int i(0); i<2*(NumWords);++i){
-                                  boost::uint64_t tmp = static_cast<uint64_t>(cw[i]) + cy[i] + carry;
+                                  uint64_t tmp = static_cast<uint64_t>(cw[i]) + cy[i] + carry;
                                   cx[i] = tmp;
                                   carry = tmp >> (std::numeric_limits<boost::uint32_t>::digits);
                              }
-                             boost::uint64_t tmp =   static_cast<uint64_t>(sign_y) + sign_z + carry;
+                             uint64_t tmp =   static_cast<uint64_t>(sign_y) + sign_z + carry;
                              cx[2*(NumWords)] = tmp;
                              carry = tmp >> (std::numeric_limits<boost::uint32_t>::digits);
                              tmp =   static_cast<uint64_t>(sign_y) + sign_z + carry;

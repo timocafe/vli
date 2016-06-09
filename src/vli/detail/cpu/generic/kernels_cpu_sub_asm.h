@@ -34,29 +34,29 @@ namespace vli {
     namespace detail {
                     template<std::size_t NumWords>
                     struct helper_inline_sub{
-                        static void inline inline_sub(boost::uint64_t* x, boost::uint64_t const* y){
+                        static void inline inline_sub(uint64_t* x, uint64_t const* y){
                              boost::uint32_t const* cy = const_cast<boost::uint32_t*>(reinterpret_cast<boost::uint32_t const*>(y));
                              boost::uint32_t* cx = reinterpret_cast<boost::uint32_t*>(x);
                              boost::uint32_t borrow(0);
                              for(int i(0); i<2*NumWords;++i){
-                                boost::uint64_t tmp = static_cast<uint64_t>(cx[i]) - cy[i] - borrow;
-                                borrow = tmp >> (std::numeric_limits<boost::uint64_t>::digits-1) ;
+                                uint64_t tmp = static_cast<uint64_t>(cx[i]) - cy[i] - borrow;
+                                borrow = tmp >> (std::numeric_limits<uint64_t>::digits-1) ;
                                 cx[i] = tmp;
                              }
                           }
 
-                        static void inline inline_sub(boost::uint64_t* x, boost::uint64_t const b){
+                        static void inline inline_sub(uint64_t* x, uint64_t const b){
                             boost::uint32_t cb = static_cast<boost::uint32_t>(b);
                             boost::uint32_t* cx = reinterpret_cast<boost::uint32_t*>(x);
                             boost::uint32_t sign = cb >> (std::numeric_limits<boost::uint32_t>::digits - 1);
                             sign = -sign;
                             boost::uint32_t borrow(0);
-                            boost::uint64_t tmp = static_cast<uint64_t>(cx[0]) - cb;
+                            uint64_t tmp = static_cast<uint64_t>(cx[0]) - cb;
                             cx[0] = tmp;
-                            borrow = tmp >> (std::numeric_limits<boost::uint64_t>::digits-1);
+                            borrow = tmp >> (std::numeric_limits<uint64_t>::digits-1);
                             for(int i(1); i<2*NumWords;++i){
-                               boost::uint64_t tmp = static_cast<uint64_t>(cx[i]) - sign - borrow;
-                               borrow = tmp >> (std::numeric_limits<boost::uint64_t>::digits-1);
+                               uint64_t tmp = static_cast<uint64_t>(cx[i]) - sign - borrow;
+                               borrow = tmp >> (std::numeric_limits<uint64_t>::digits-1);
                                cx[i] = tmp;
                             }
                           }

@@ -32,10 +32,10 @@
 namespace vli {
     namespace detail {
                    template <std::size_t NumWords>
-                   void muladd( boost::uint64_t * x, boost::uint64_t const* y, boost::uint64_t const* z);
+                   void muladd( uint64_t * x, uint64_t const* y, uint64_t const* z);
 
                    template<>
-                   void muladd<1>(boost::uint64_t* x/* %%rdi */, boost::uint64_t const* y/* %%rsi */, boost::uint64_t const* z/* %%rdx -> rcx */){
+                   void muladd<1>(uint64_t* x/* %%rdi */, uint64_t const* y/* %%rsi */, uint64_t const* z/* %%rdx -> rcx */){
                           asm( 
                               "ld 14, 0(4)     \n"                   
                               "ld 15, 0(5)     \n"                   
@@ -52,7 +52,7 @@ namespace vli {
                    }
 
                    template<>
-                   void muladd<2>(boost::uint64_t* x/* %%rdi */, boost::uint64_t const* y/* %%rsi */, boost::uint64_t const* z/* %%rdx -> rbx */){
+                   void muladd<2>(uint64_t* x/* %%rdi */, uint64_t const* y/* %%rsi */, uint64_t const* z/* %%rdx -> rbx */){
                           asm( 
                               "ld 14, 0(4)              \n"                   
                               "ld 15, 8(4)              \n"                   
@@ -128,7 +128,7 @@ namespace vli {
                    }
 
                   template<>
-                  void muladd<3>(boost::uint64_t* x/* %%rdi */, boost::uint64_t const* y/* %%rsi */, boost::uint64_t const* z/* %%rdx -> rbx */){
+                  void muladd<3>(uint64_t* x/* %%rdi */, uint64_t const* y/* %%rsi */, uint64_t const* z/* %%rdx -> rbx */){
                           asm( 
                               "ld 14, 0(4)              \n"                   
                               "ld 15, 8(4)              \n"                   
@@ -248,7 +248,7 @@ namespace vli {
                         }
 
                          template<>
-                         void muladd<4>(boost::uint64_t* x/* %%rdi */, boost::uint64_t const* y/* %%rsi */, boost::uint64_t const* z/* %%rdx -> rbx */){
+                         void muladd<4>(uint64_t* x/* %%rdi */, uint64_t const* y/* %%rsi */, uint64_t const* z/* %%rdx -> rbx */){
                             asm(
                               "ld 14, 0(4)              \n"                   
                               "ld 15, 8(4)              \n"                   

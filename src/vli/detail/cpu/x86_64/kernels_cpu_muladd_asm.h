@@ -36,10 +36,10 @@ namespace vli {
     
                     //multiplication Addition (only for the inner product)
                    template <std::size_t NumWords>
-                   void muladd( boost::uint64_t * x, boost::uint64_t const* y, boost::uint64_t const* z);
+                   void muladd( uint64_t * x, uint64_t const* y, uint64_t const* z);
            
                    template<>
-                   void muladd<1>( boost::uint64_t* x/* %%rdi */,  boost::uint64_t const* y/* %%rsi */,  boost::uint64_t const* z/* %%rdx -> rcx */){
+                   void muladd<1>( uint64_t* x/* %%rdi */,  uint64_t const* y/* %%rsi */,  uint64_t const* z/* %%rdx -> rcx */){
                       asm( 
                           "movq (%%rsi)          ,%%rax             \n" /* a0 into rax */                   
                           "movq %%rdx            ,%%rcx             \n" /* save a0-rcx faster than stack */ 
@@ -53,7 +53,7 @@ namespace vli {
                    }
 
                    template<>
-                   void muladd<2>( boost::uint64_t* x/* %%rdi */,  boost::uint64_t const* y/* %%rsi */,  boost::uint64_t const* z/* %%rdx -> rbx */){
+                   void muladd<2>( uint64_t* x/* %%rdi */,  uint64_t const* y/* %%rsi */,  uint64_t const* z/* %%rdx -> rbx */){
                       asm( 
                           "subq $0x20            ,%%rsp             \n" /* create stack frame */            
                           "movq %%rdx            ,%%rbx             \n" /* rdx uses by mul             */   
@@ -139,7 +139,7 @@ namespace vli {
 
 
                   template<>
-                  void muladd<3>( boost::uint64_t* x/* %%rdi */,  boost::uint64_t const* y/* %%rsi */,  boost::uint64_t const* z/* %%rdx -> rbx */){
+                  void muladd<3>( uint64_t* x/* %%rdi */,  uint64_t const* y/* %%rsi */,  uint64_t const* z/* %%rdx -> rbx */){
                            asm( 
                         /*-01*/ "subq $0x30            ,%%rsp             \n" /* create stack frame */            
                         /*00*/  "movq %%rdx            ,%%rbx             \n" /* rdx uses by mul             */   
@@ -269,7 +269,7 @@ namespace vli {
                         }
 
                          template<>
-                         void muladd<4>( boost::uint64_t* x/* %%rdi */,  boost::uint64_t const* y/* %%rsi */,  boost::uint64_t const* z/* %%rdx -> rbx */){
+                         void muladd<4>( uint64_t* x/* %%rdi */,  uint64_t const* y/* %%rsi */,  uint64_t const* z/* %%rdx -> rbx */){
                             asm( 
                                 "subq $0x50            ,%%rsp             \n" /* destroy stack frame */           
                                 "movq %%rdx            ,%%rbx             \n" /* rdx uses by mul             */   

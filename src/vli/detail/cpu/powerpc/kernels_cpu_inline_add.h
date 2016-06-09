@@ -71,16 +71,16 @@ struct helper_inline_add;
 /**
  \brief addition between two integer<n*128>, n*128 <= 512
  \return void
- \param x boost::uint64_t* pointer of the first entry of the Integer container
- \param y boost::uint64_t* pointer of the first entry of the Integer container
+ \param x uint64_t* pointer of the first entry of the Integer container
+ \param y uint64_t* pointer of the first entry of the Integer container
  This operator performs a += between two integer<n*128> The ASM solver is specific 
  and full unroll n belongs to the interval 1 to 8, 128-bit <= vli::integer<n*128>  <= 512-bit
 */
 #define FUNCTION_INLINE_add_nbits_nbits(z, m, unused)                                                  \
 template<std::size_t NumWords>                                                                         \
 struct helper_inline_add<NumWords,typename boost::enable_if_c< NumWords == BOOST_PP_ADD(m,2)>::type>{  \
-    static void inline inline_add(boost::uint64_t* x, boost::uint64_t const* y){                       \
-        boost::uint64_t tmp_register1, tmp_register2;                                                  \
+    static void inline inline_add(uint64_t* x, uint64_t const* y){                       \
+        uint64_t tmp_register1, tmp_register2;                                                  \
         __asm__ __volatile__ (                                                                         \
             VLI_GENERATE_ADDITION(m)                                                                   \
         : [tmp_register1] "=&r" (tmp_register1), [tmp_register2] "=&r" (tmp_register2)                  \
@@ -88,9 +88,9 @@ struct helper_inline_add<NumWords,typename boost::enable_if_c< NumWords == BOOST
         : "memory", "cc");                                                                             \
     };                                                                                                 \
                                                                                                        \
-    static void inline_add(boost::uint64_t* x, boost::int64_t const y){                                \
-        boost::uint64_t tmp_register1, tmp_register2;                                                  \
-        boost::uint64_t constant(y >> 63);                                                             \
+    static void inline_add(uint64_t* x, boost::int64_t const y){                                \
+        uint64_t tmp_register1, tmp_register2;                                                  \
+        uint64_t constant(y >> 63);                                                             \
         __asm__ __volatile__ (                                                                         \
             "ld %[tmp_register1],     0(%[x])      \n\t"                                               \
             "addc  %[tmp_register1],  %[tmp_register1], %3 \n\t"                                       \
@@ -101,9 +101,9 @@ struct helper_inline_add<NumWords,typename boost::enable_if_c< NumWords == BOOST
         : "memory", "cc");                                                                             \
     };                                                                                                 \
                                                                                                        \
-    static void inline_add_extend(boost::uint64_t* x, boost::uint64_t const* y, boost::uint64_t const* w){ \
-        boost::uint64_t tmp1(y[NumWords-1]),tmp2(w[NumWords-1]); \
-        boost::uint64_t tmp_register1, tmp_register2;                                                  \
+    static void inline_add_extend(uint64_t* x, uint64_t const* y, uint64_t const* w){ \
+        uint64_t tmp1(y[NumWords-1]),tmp2(w[NumWords-1]); \
+        uint64_t tmp_register1, tmp_register2;                                                  \
         __asm__ __volatile__ ( \
               "sradi %5, %5, 63 \n\t" \
               "sradi %6, %6, 63 \n\t" \

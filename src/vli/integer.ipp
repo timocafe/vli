@@ -39,7 +39,7 @@ namespace detail {
     struct gmp_convert_helper {
         template <std::size_t NumBits>
         static GMPClass apply(integer<NumBits> a) {
-            // integer::value_type = boost::uint64_t is an unsigned long long on some machines.
+            // integer::value_type = uint64_t is an unsigned long long on some machines.
             // GMP doesn't work with unsigned long longs, but only with unsigned long int.
             // Hence we will cast to unsigned long int manually,
             // given that sizeof(unsigned long long) == sizeof(unsigned long int).

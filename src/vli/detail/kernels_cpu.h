@@ -50,17 +50,17 @@ namespace vli {
 
     //multiplication
     template <std::size_t NumWords>
-    void mul(boost::uint64_t * x, boost::uint64_t const b);
+    void mul(uint64_t * x, uint64_t const b);
 
     template <std::size_t NumWords>
-    void mul(boost::uint64_t * x, boost::uint64_t const* y);
+    void mul(uint64_t * x, uint64_t const* y);
 
     template <std::size_t NumWords>
-    void mul(boost::uint64_t * x, boost::uint64_t const* y, boost::uint64_t const* z);
+    void mul(uint64_t * x, uint64_t const* y, uint64_t const* z);
 
     //multiplication Addition (only for the inner product)
     template <std::size_t NumWords>
-    void muladd( boost::uint64_t * x, boost::uint64_t const* y, boost::uint64_t const* z);
+    void muladd( uint64_t * x, uint64_t const* y, uint64_t const* z);
 
     }
 }

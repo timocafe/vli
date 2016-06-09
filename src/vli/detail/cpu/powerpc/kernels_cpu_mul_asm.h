@@ -34,11 +34,11 @@ namespace vli {
     namespace detail {
                      //new functions type : VLI<n*64> *= long int;
                     template <std::size_t NumWords>
-                    void mul( boost::uint64_t * x, boost::uint64_t const b);
+                    void mul( uint64_t * x, uint64_t const b);
 
                      #define FUNCTION_mul_nbits_64bits(z, n, unused) \
                          template<> \
-                         void mul<n+2>(boost::uint64_t* x, boost::uint64_t const b){           \
+                         void mul<n+2>(uint64_t* x, uint64_t const b){           \
                          asm(                                                                                       \
                              "xor   6,6,6 \n" \
                              "ld    "R(0)", 0(3)   \n" /* x arg */                                                     \
@@ -70,11 +70,11 @@ namespace vli {
 
                       // remark same than x86, look cpu_x86 for details
                        template <std::size_t NumWords>
-                       void mul( boost::uint64_t * x, boost::uint64_t const* y);
+                       void mul( uint64_t * x, uint64_t const* y);
 
                        #define BOOST_PP_LOCAL_MACRO(n) \
                           template<> \
-                          void mul<n>(boost::uint64_t* x, boost::uint64_t const* y){ \
+                          void mul<n>(uint64_t* x, uint64_t const* y){ \
                          asm(                                                                                       \
                               BOOST_PP_REPEAT(n, MULNTON0, BOOST_PP_SUB(n,1))                                             \
                               BOOST_PP_REPEAT(n, STORE_register_r3mul2,BOOST_PP_ADD(n,2) )                     \
@@ -90,10 +90,10 @@ namespace vli {
                        #undef BOOST_PP_LOCAL_LIMITS
 
                        template <std::size_t NumWords>
-                       void mul( boost::uint64_t * x, boost::uint64_t const* y, boost::uint64_t const* z);
+                       void mul( uint64_t * x, uint64_t const* y, uint64_t const* z);
                     
                        template<>
-                       void mul<1>(boost::uint64_t* x/* %%rdi */, boost::uint64_t const* y/* %%rsi */, boost::uint64_t const* z/* %%rdx -> rcx */){
+                       void mul<1>(uint64_t* x/* %%rdi */, uint64_t const* y/* %%rsi */, uint64_t const* z/* %%rdx -> rcx */){
                           asm( 
                               "ld 14, 0(4)     \n"                   
                               "ld 15, 0(5)     \n"                   
@@ -106,7 +106,7 @@ namespace vli {
                        }
           
                        template<>
-                       void mul<2>(boost::uint64_t* x/* %%rdi */, boost::uint64_t const* y/* %%rsi */, boost::uint64_t const* z/* %%rdx -> rbx */){
+                       void mul<2>(uint64_t* x/* %%rdi */, uint64_t const* y/* %%rsi */, uint64_t const* z/* %%rdx -> rbx */){
                           asm( 
                               "ld 14, 0(4)              \n"                   
                               "ld 15, 8(4)              \n"                   
@@ -175,7 +175,7 @@ namespace vli {
                        }
          
                       template<>
-                      void mul<3>(boost::uint64_t* x/* %%rdi */, boost::uint64_t const* y/* %%rsi */, boost::uint64_t const* z/* %%rdx -> rbx */){
+                      void mul<3>(uint64_t* x/* %%rdi */, uint64_t const* y/* %%rsi */, uint64_t const* z/* %%rdx -> rbx */){
                           asm( 
                               "ld 14, 0(4)              \n"                   
                               "ld 15, 8(4)              \n"                   
@@ -283,7 +283,7 @@ namespace vli {
                             }
 
                      template<>
-                     void mul<4>(boost::uint64_t* x/* %%rdi */, boost::uint64_t const* y/* %%rsi */, boost::uint64_t const* z/* %%rdx -> rbx */){
+                     void mul<4>(uint64_t* x/* %%rdi */, uint64_t const* y/* %%rsi */, uint64_t const* z/* %%rdx -> rbx */){
                             asm(
                               "ld 14, 0(4)              \n"                   
                               "ld 15, 8(4)              \n"                   

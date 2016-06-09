@@ -63,7 +63,7 @@ namespace vli
     }
     
     template <std::size_t NumBits>
-    void minus_assign(integer<NumBits> & integer_a,  boost::uint64_t const b ){
+    void minus_assign(integer<NumBits> & integer_a,  uint64_t const b ){
         vli::detail::helper_inline_sub<integer<NumBits>::numwords>::inline_sub(&integer_a[0],b);
     }
 
@@ -74,7 +74,7 @@ namespace vli
     }
 
     template <std::size_t NumBits>
-    void multiplies_assign(integer<NumBits> & integer_a,  boost::uint64_t const b){
+    void multiplies_assign(integer<NumBits> & integer_a,  uint64_t const b){
         using detail::mul;
         mul<integer<NumBits>::numwords>(&integer_a[0],b);
     }
