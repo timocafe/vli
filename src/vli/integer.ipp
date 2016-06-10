@@ -91,7 +91,6 @@ integer<NumBits>::operator mpq_class() const{
 }
 #endif //__GNU_MP_VERSION
 
-
 template <std::size_t NumBits>
 typename integer<NumBits>::reference integer<NumBits>::operator[](size_type i){
     assert( i < numwords );
@@ -145,9 +144,8 @@ bool integer<NumBits>::operator >= (integer const& integer_a) const{
 
 template <std::size_t NumBits>
 bool integer<NumBits>::operator < (long int i) const{
-    integer tmp1(*this);
-    integer tmp2(i);
-    return ( (tmp1-=tmp2).is_negative() );
+    integer tmp(i);
+    return (tmp > *this);
 }
 
 template <std::size_t NumBits>
