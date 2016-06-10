@@ -40,9 +40,9 @@ namespace detail {
         template <std::size_t NumBits>
         static GMPClass apply(integer<NumBits> a) {
             // integer::value_type = uint64_t is an unsigned long long on some machines.
-            // GMP doesn't work with unsigned long longs, but only with unsigned long int.
-            // Hence we will cast to unsigned long int manually,
-            // given that sizeof(unsigned long long) == sizeof(unsigned long int).
+            // GMP doesn't work with unsigned long longs, but only with unsigned int64_t.
+            // Hence we will cast to unsigned int64_t manually,
+            // given that sizeof(unsigned long long) == sizeof(unsigned int64_t).
             BOOST_STATIC_ASSERT(sizeof(typename integer<NumBits>::value_type) == sizeof(unsigned long int));
             bool const neg = a.is_negative();
             if(neg)
@@ -70,12 +70,12 @@ integer<NumBits>::integer(){
 }
 
 template <std::size_t NumBits>
-integer<NumBits>::integer(long int num) {
+integer<NumBits>::integer(int64_t num) {
     // We rely on the implementation-defined >>= operator for negative long ints
     // to fill the most significant part with 1 (only for negative values)
     assert( -1l >> 1 == -1l );
     data_[0] = num;
-    value_type a = num >> std::numeric_limits<long int>::digits;
+    value_type a = num >> std::numeric_limits<int64_t>::digits;
     std::fill(begin()+1,end(),a);
 }
 
@@ -143,13 +143,13 @@ bool integer<NumBits>::operator >= (integer const& integer_a) const{
 }
 
 template <std::size_t NumBits>
-bool integer<NumBits>::operator < (long int i) const{
+bool integer<NumBits>::operator < (int64_t i) const{
     integer tmp(i);
     return (tmp > *this);
 }
 
 template <std::size_t NumBits>
-bool integer<NumBits>::operator > (long int i) const{
+bool integer<NumBits>::operator > (int64_t i) const{
     integer tmp(i);
     return ( (tmp-=*this).is_negative() );
 }
@@ -176,16 +176,16 @@ bool integer<NumBits>::is_negative() const{
 
 // c - basic operators
 template <std::size_t NumBits>
-integer<NumBits>& integer<NumBits>::operator = (long int const num){
+integer<NumBits>& integer<NumBits>::operator = (int64_t const num){
     assert( -1l >> 1 == -1l );
     data_[0] = num;
-    value_type a = num >> std::numeric_limits<long int>::digits;
+    value_type a = num >> std::numeric_limits<int64_t>::digits;
     std::fill(begin()+1,end(),a);
     return *this;
 }
 
 template <std::size_t NumBits>
-integer<NumBits>& integer<NumBits>::operator >>= (long int const a){
+integer<NumBits>& integer<NumBits>::operator >>= (int64_t const a){
     assert( a >= 0 );
     assert( a < 64 );
     for(size_type i = 0; i < numwords-1; ++i){
@@ -203,7 +203,7 @@ integer<NumBits>& integer<NumBits>::operator >>= (long int const a){
 }
 
 template <std::size_t NumBits>
-integer<NumBits>& integer<NumBits>::operator <<= (long int const a){
+integer<NumBits>& integer<NumBits>::operator <<= (int64_t const a){
     assert( a >= 0 );
     assert(a < 64);
     for(size_type i = numwords-1; i > 0; --i){
@@ -331,7 +331,7 @@ integer<NumBits>& integer<NumBits>::operator += (integer<NumBits> const& integer
 }
 
 template <std::size_t NumBits>
-integer<NumBits>& integer<NumBits>::operator += (long int const a){
+integer<NumBits>& integer<NumBits>::operator += (int64_t const a){
     plus_assign(*this,a);
     return *this;
 }
@@ -343,13 +343,13 @@ integer<NumBits>& integer<NumBits>::operator -= (integer<NumBits> const& integer
 }
 
 template <std::size_t NumBits>
-integer<NumBits>& integer<NumBits>::operator -= (long int const a){
+integer<NumBits>& integer<NumBits>::operator -= (int64_t const a){
     minus_assign(*this,a);
     return *this;
 }
 
 template <std::size_t NumBits>
-integer<NumBits>& integer<NumBits>::operator *= (long int const a){
+integer<NumBits>& integer<NumBits>::operator *= (int64_t const a){
     multiplies_assign(*this,a);
     return *this;
 }
@@ -496,30 +496,30 @@ const integer<NumBits+64> plus_extend (integer<NumBits> const &integer_a, intege
 }
 
 template <std::size_t NumBits>
-const integer<NumBits> operator + (integer<NumBits> integer_a, long int b){
+const integer<NumBits> operator + (integer<NumBits> integer_a, int64_t b){
     integer_a += b;
     return integer_a;
 }
 
 template <std::size_t NumBits>
-const integer<NumBits> operator + (long int b, integer<NumBits> const& integer_a){
+const integer<NumBits> operator + (int64_t b, integer<NumBits> const& integer_a){
     return integer_a+b;
 }
 
 template <std::size_t NumBits>
-const integer<NumBits> operator - (integer<NumBits> integer_a, long int b){
+const integer<NumBits> operator - (integer<NumBits> integer_a, int64_t b){
     integer_a -= b;
     return integer_a;
 }
 
 template <std::size_t NumBits>
-const integer<NumBits> operator * (integer<NumBits> integer_a, long int b){
+const integer<NumBits> operator * (integer<NumBits> integer_a, int64_t b){
     integer_a *= b;
     return integer_a;
 }
 
 template <std::size_t NumBits>
-const integer<NumBits> operator * (long int b, integer<NumBits> const& a){
+const integer<NumBits> operator * (int64_t b, integer<NumBits> const& a){
     return a*b;
 }
 
