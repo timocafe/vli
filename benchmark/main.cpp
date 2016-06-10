@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include <time.h>
+#include <chrono>
 
 #include "vli/integer.hpp"
 #include "vli/polynomial.hpp"
@@ -14,9 +15,8 @@
 
 #include "misc.hpp"
 #include "tools.h"
-#include "timing.h"
 
-#define Size_vec 4096
+#define Size_vec 512
 
 //The order __ORDER__ is passed now by cmake, see cmakelist of the main
 using vli::polynomial;
@@ -122,15 +122,16 @@ typedef boost::mpl::vector<
        tools::converter(v1,v1_gmp);
        tools::converter(v2,v2_gmp);
 
-       Timer tgmp("CPU GMP ");
-       tgmp.begin();
+       std::chrono::time_point<std::chrono::system_clock> start, end;
+       start = std::chrono::system_clock::now();
            p_gmp_res = vli::detail::inner_product_cpu(v1_gmp,v2_gmp);
-       tgmp.end();
+       end = std::chrono::system_clock::now();
+       std::chrono::duration<double> elapsed_seconds_gmp = end-start;
 
-       Timer t0("CPU ");
-       t0.begin();
+       start = std::chrono::system_clock::now();
            p1_res = vli::detail::inner_product_cpu(v1,v2);
-       t0.end();
+       end = std::chrono::system_clock::now();
+       std::chrono::duration<double> elapsed_seconds_vli = end-start;
 
        #ifdef VLI_USE_GPU
        Timer t1("GPU ");
@@ -140,21 +141,20 @@ typedef boost::mpl::vector<
        #endif
 
        if(tools::equal<Polynomial>(p1_res,p_gmp_res))
-               std::cout << "  OK, cpu/gmp " << t0.get_time() ;
+               std::cout << "  OK, cpu/gmp " << elapsed_seconds_vli.count() ;
        #ifdef VLI_USE_GPU
                if(p1_res == p2_res)
                    std::cout << " gpu "  t1.get_time() ;
                else
                    std::cout << " gpu no ok";
        #endif
-               std::cout << " gmp " <<  tgmp.get_time();
+               std::cout << " gmp " <<  elapsed_seconds_gmp.count() ;
                std::cout.precision(2);
        #ifdef VLI_USE_GPU
-               std::cout << " G vli: "  << tgmp.get_time()/t0.get_time() << " G gpu: " << tgmp.get_time()/t1.get_time()   ; 
+       std::cout << " G vli: "  << elapsed_seconds_gmp.count()/elapsed_seconds_vli.count();
 //               tool::timescheduler::save(tgmp.get_time(),t0.get_time(),t1.get_time());
        #else
-               std::cout << " G vli: "  << tgmp.get_time()/t0.get_time() ; 
-     //          timescheduler<Polynomial>::save(tgmp.get_time(),t0.get_time());
+        std::cout << " G vli: "  << elapsed_seconds_gmp.count()/elapsed_seconds_vli.count();
        #endif
 
        }
