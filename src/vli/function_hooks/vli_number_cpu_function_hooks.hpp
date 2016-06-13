@@ -40,18 +40,18 @@ namespace vli
     //forwart declaration
     template <std::size_t NumBits>
     class integer;
-    
+
     //????_assign functions
     template <std::size_t NumBits>
     void plus_assign(integer<NumBits> & integer_a, integer<NumBits> const& integer_b ){
          vli::detail::helper_inline_add<integer<NumBits>::numwords>::inline_add(&integer_a[0],&integer_b[0]);
     }
-     
+
     template <std::size_t NumBits>
     void plus_assign(integer<NumBits> & integer_a,  boost::int64_t const b ){
         vli::detail::helper_inline_add<integer<NumBits>::numwords>::inline_add(&integer_a[0],b);
     }
-    
+
     template <std::size_t NumBits>
     void plus_extend_assign(integer<NumBits+std::numeric_limits<typename integer<NumBits>::value_type>::digits> & integer_a, integer<NumBits> const& integer_b, integer<NumBits> const& integer_c){
         vli::detail::helper_inline_add<integer<NumBits>::numwords>::inline_add_extend(&integer_a[0],&integer_b[0],&integer_c[0]);
@@ -61,7 +61,7 @@ namespace vli
     void minus_assign(integer<NumBits> & integer_a, integer<NumBits> const& integer_b ){
         vli::detail::helper_inline_sub<integer<NumBits>::numwords>::inline_sub(&integer_a[0],&integer_b[0]);
     }
-    
+
     template <std::size_t NumBits>
     void minus_assign(integer<NumBits> & integer_a,  uint64_t const b ){
         vli::detail::helper_inline_sub<integer<NumBits>::numwords>::inline_sub(&integer_a[0],b);
@@ -84,7 +84,7 @@ namespace vli
         using detail::mul;
         mul<integer<NumBits>::numwords>(&integer_res[0],&integer_a[0],&integer_b[0]);
     }
-    
+
     template <std::size_t NumBits>
     void multiply_add_assign(integer<2*NumBits>& integer_res , integer<NumBits> const & integer_a, integer<NumBits> const & integer_b){
         using detail::muladd;

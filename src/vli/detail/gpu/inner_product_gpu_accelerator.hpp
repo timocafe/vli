@@ -26,7 +26,7 @@
  *FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
  *ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  *DEALINGS IN THE SOFTWARE.
- 
+
  */
 
 #ifndef INNER_PRODUCT_GPU_BOOSTER_HPP
@@ -54,12 +54,12 @@ namespace vli
 
     template <class polynomial>
     class vector;
-   
+
     template <class vector>
     struct inner_product_result_type;
-   
+
     template <class Coeff, class MaxOrder, class Var0, class Var1, class Var2, class Var3>
-    struct inner_product_result_type< vector<polynomial<Coeff,MaxOrder,Var0,Var1,Var2,Var3> > >; 
+    struct inner_product_result_type< vector<polynomial<Coeff,MaxOrder,Var0,Var1,Var2,Var3> > >;
 
     namespace detail {
 
@@ -78,18 +78,18 @@ namespace vli
             ) {
             assert(v1.size() == v2.size());
             std::size_t size_v = v1.size();
-          
+
             #ifdef _OPENMP
                 std::vector<typename inner_product_result_type<vector<polynomial<Coeff, max_order_each<Order>, Var0, Var1, Var2, Var3> > >::type > res(omp_get_max_threads());
             #else
                 typename inner_product_result_type<vector<polynomial<Coeff,max_order_each<Order>, Var0, Var1, Var2, Var3> > >::type res;
             #endif
-          
+
             typename inner_product_result_type<vector<polynomial<Coeff, max_order_each<Order>, Var0, Var1, Var2, Var3> > >::type poly;
-          
+
             std::size_t split = static_cast<std::size_t>(VLI_SPLIT_PARAM*v1.size());
             vli::detail::gpu_inner_product_vector<Coeff::numbits, max_order_each<Order>, num_of_variables_helper<Var0, Var1, Var2, Var3>::value >(split, &v1[0](0,0)[0], &v2[0](0,0)[0]);
-          
+
             #pragma omp parallel for schedule(dynamic)
             for(std::size_t i=split ; i < size_v ; ++i){
                 #ifdef _OPENMP
@@ -98,7 +98,7 @@ namespace vli
                    res += v1[i]*v2[i];
                 #endif
             }
-          
+
             #ifdef _OPENMP //final omp reduction
             for(int i=1; i < omp_get_max_threads(); ++i)
                 res[0]+=res[i];
@@ -109,8 +109,8 @@ namespace vli
                                                 *result_stride<1,num_of_variables_helper<Var0, Var1, Var2, Var3>::value, max_order_each<Order>::value>::value
                                                 *result_stride<2,num_of_variables_helper<Var0, Var1, Var2, Var3>::value, max_order_each<Order>::value>::value
                                                 *result_stride<3,num_of_variables_helper<Var0, Var1, Var2, Var3>::value, max_order_each<Order>::value>::value
-                                                *sizeof(long),cudaMemcpyDeviceToHost),__FILE__,__LINE__);// this thing synchronizes 
-          
+                                                *sizeof(long),cudaMemcpyDeviceToHost),__FILE__,__LINE__);// this thing synchronizes
+
             #ifdef _OPENMP
                 res[0] += poly;
                 return res[0];
@@ -130,18 +130,18 @@ namespace vli
             ) {
                 assert(v1.size() == v2.size());
                 std::size_t size_v = v1.size();
-              
+
                 #ifdef _OPENMP
                     std::vector<typename inner_product_result_type<vector<polynomial<Coeff, max_order_combined<Order>, Var0, Var1, Var2, Var3> > >::type > res(omp_get_max_threads());
                 #else
                     typename inner_product_result_type<vector<polynomial<Coeff, max_order_combined<Order>, Var0, Var1, Var2, Var3> > >::type res;
                 #endif
-            
+
                 typename inner_product_result_type<vector<polynomial<Coeff, max_order_combined<Order>, Var0, Var1, Var2, Var3> > >::type poly;
-              
+
                 std::size_t split = static_cast<std::size_t>(VLI_SPLIT_PARAM*v1.size());
                 vli::detail::gpu_inner_product_vector<Coeff::numbits, max_order_combined<Order>, num_of_variables_helper<Var0, Var1, Var2, Var3>::value >(split, &v1[0](0,0)[0], &v2[0](0,0)[0]);
-            
+
                 #pragma omp parallel for schedule(dynamic)
                 for(std::size_t i=split ; i < size_v ; ++i){
                     #ifdef _OPENMP
@@ -150,16 +150,16 @@ namespace vli
                        res += v1[i]*v2[i];
                     #endif
                 }
-              
+
                 #ifdef _OPENMP //final omp reduction
                 for(int i=1; i < omp_get_max_threads(); ++i)
                     res[0]+=res[i];
                 #endif
-                
+
                 gpu::cu_check_error(cudaMemcpy((void*)&poly(0,0),(void*)gpu_get_polynomial(),
                                                 2*Coeff::numwords*max_order_combined_helpers::size<num_of_variables_helper<Var0,Var1,Var2,Var3 >::value+1, 2*Order>::value
-                                                *sizeof(long),cudaMemcpyDeviceToHost),__FILE__,__LINE__);// this thing synchronizes 
-                               
+                                                *sizeof(long),cudaMemcpyDeviceToHost),__FILE__,__LINE__);// this thing synchronizes
+
                 #ifdef _OPENMP
                     res[0] += poly;
                     return res[0];

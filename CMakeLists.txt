@@ -37,7 +37,7 @@ set (VLI_VERSION_MINOR 2)
 #
 ########################################################################
 
-set (BOOST_DIR $ENV{BOOST_DIR} CACHE PATH "Path to the Boost installation (or to the Boost source)")
+#set (BOOST_DIR $ENV{BOOST_DIR} CACHE PATH "Path to the Boost installation (or to the Boost source)")
 option (VLI_COMPILE_GPU "Compile the GPU enhanced VLI components" OFF)
 option (VLI_TESTS "Build the VLI regression tests" OFF)
 option (VLI_USE_OPENMP "Build and execute with openmp" ON)
@@ -77,10 +77,11 @@ endif(VLI_USE_OPENMP)
 
 if (VLI_COMPILE_GPU)
    find_package (CUDA)
+   SET(CUDA_PROPAGATE_HOST_FLAGS OFF)
    if (VLI_KEPLER)
-       set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} "-arch=sm_35  --ptxas-options=-v   -DVLI_KEPLER")
+       set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} "-O3 -arch=sm_35  --ptxas-options=-v   -DVLI_KEPLER")
    else (VLI_KEPLER)
-       set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} "-arch=sm_21 -DVLI_FERMI")
+       set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS} "-O3 -arch=sm_21 -DVLI_FERMI")
    endif (VLI_KEPLER)
    include_directories(${CUDA_INCLUDE_DIRS})
 else (VLI_COMPILE_GPU)
@@ -107,9 +108,8 @@ endif (VLI_COMPILE_GPU)
     endif (GMP_FOUND)
 #endif (VLI_TESTS)
 
-find_package(Boost REQUIRED unit_test_framework)
+find_package(Boost 1.54 REQUIRED unit_test_framework)
 
-#set(BOOST_ROOT ${BOOST_DIR})
 #find_package (Boost COMPONENTS unit_test_framework random)
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
