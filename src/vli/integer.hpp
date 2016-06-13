@@ -30,10 +30,7 @@
 #ifndef VLI_VLI_HPP
 #define VLI_VLI_HPP
 
-#include "vli/function_hooks/vli_number_cpu_function_hooks.hpp"
-
 #include <cstdint>
-#include <vector>
 #include <string>
 #include <cassert>
 #include <cstring>
@@ -41,6 +38,8 @@
 #include <sstream>
 #include <stdexcept>
 #include <algorithm>
+
+#include "vli/function_hooks/vli_number_cpu_function_hooks.hpp"
 
 
 /*! \namespace vli
@@ -110,7 +109,7 @@ namespace vli {
          \note  If the parameter is negative, the integer number is initialized with the two complementary method.
           Copy constructor and destructor are generated automatically by the compiler.
          */
-        explicit integer(long int num);
+        explicit integer(int64_t num);
 
 #if defined __GNU_MP_VERSION
         // TODO find a better solution for this.
@@ -140,25 +139,25 @@ namespace vli {
         // c - basic operator
 
         /**
-         \fn integer<NumBits>& operator = (long int const num)
-         \brief Perform a long int to vli::integer number
+         \fn integer<NumBits>& operator = (int64_t const num)
+         \brief Perform a int64_t to vli::integer number
          \param num 64-bit int
          */
-        integer& operator = (long int const num);
+        integer& operator = (int64_t const num);
 
         /**
          \fn integer<NumBits>& operator >>= (integer<NumBits> const& integer_a)
          \brief Perform a right bit shift operation on the integer<NumBits> number, it conserves the number of bits
          \param a 64-bit int
          */
-        integer& operator >>= (long int const a); // bit shift
+        integer& operator >>= (int64_t const a); // bit shift
 
         /**
          \fn integer<NumBits>& operator <<= (integer<NumBits> const& integer_a)
          \brief Perform a left bit shift operation on the integer<NumBits> number, it conserves the number of bits
          \param a 64-bit int
          */
-        integer& operator <<= (long int const a); // bit shift
+        integer& operator <<= (int64_t const a); // bit shift
 
         /**
          \fn integer<NumBits>& operator |= (integer<NumBits> const& integer_a)
@@ -189,12 +188,12 @@ namespace vli {
         integer& operator += (integer const& integer_a);
 
         /**
-         \fn integer<NumBits>& operator += (long int const a)
+         \fn integer<NumBits>& operator += (int64_t const a)
          \brief Perform an addition between a integer<NumBits> number and a 64-bit long integer,
           it conserves the number of bits
          \param a 64-bit int
         */
-        integer& operator += (const long int  a);
+        integer& operator += (const int64_t  a);
 
         /**
          \fn integer<NumBits>& operator -= (integer<NumBits> const& integer_a)
@@ -204,12 +203,12 @@ namespace vli {
         integer& operator -= (integer const& integer_a);
 
         /**
-         \fn integer<NumBits>& operator -= (long int const a)
+         \fn integer<NumBits>& operator -= (int64_t const a)
          \brief Perform a substraction between a integer<NumBits> number and a signed 64-bit int, 
          it conserves the number of bits
          \param a 64-bit int
          */
-        integer& operator -= (const long int a);
+        integer& operator -= (const int64_t a);
 
         /**
          \fn integer<NumBits>& operator *= (integer<NumBits> const& integer_a)
@@ -219,12 +218,12 @@ namespace vli {
         integer& operator *= (integer const& integer_a);
 
         /**
-         \fn integer<NumBits>& operator *= (long int const a)
+         \fn integer<NumBits>& operator *= (int64_t const a)
          \brief Perform a multiplication between a integer number<NumBits> and a  signed 64-bit int,
           it conserves the number of bits
          \param a 64-bit int
          */
-        integer& operator *= (long int const a);
+        integer& operator *= (int64_t const a);
 
         /**
          \fn integer<NumBits>& operator /= (integer<NumBits> a)
@@ -297,20 +296,20 @@ namespace vli {
 
 
         /**
-         \fn integer<NumBits>& operator < (long int) const
+         \fn integer<NumBits>& operator < (int64_t) const
          \brief Test the inequality < between a signed 64-bit int and a integer<NumBits> number.
           The complementary operator <= is generated automatically by the boost operator package
          \param a signed int 64-bit
          */
-        bool operator < (long int a) const; // need by less_than_comparable<T,U>
+        bool operator < (int64_t a) const; // need by less_than_comparable<T,U>
 
         /**
-         \fn integer& operator > (long int) const
+         \fn integer& operator > (int64_t) const
          \brief Test the inequality > between a signed 64-bit int and a integer<NumBits> number.
           The complementary operator >= is generated automatically by the boost operator package
          \param a signed int 64-bit
          */
-        bool operator > (long int a) const; // need by less_than_comparable<T,U>
+        bool operator > (int64_t a) const; // need by less_than_comparable<T,U>
 
         /* \cond I do not need this part in the doc*/
         bool is_zero() const;
@@ -435,25 +434,25 @@ namespace vli {
      \brief Addition between an integer<NumBits> and a signed 64-bit int
      \return integer<NumBits>
      \param integer_a integer<NumBits> 
-     \param b long int
+     \param b int64_t
      This operator performs an addition between an integer and as signed 64 bits integer, 
      the return has the same size than the input.
      The ASM solver is specific. This operator is not generated by BOOST::operator for performance issue.
      */
     template <std::size_t NumBits>
-    const integer<NumBits> operator + (integer<NumBits> integer_a, long int b);
+    const integer<NumBits> operator + (integer<NumBits> integer_a, int64_t b);
 
     /**
      \brief Addition between a signed 64-bit integer and an integer<NumBits>
      \return integer number<NumBits>
-     \param b long int
+     \param b int64_t
      \param integer_b integer<NumBits> 
      This operator performs an addition between an integer and as signed 64 bits integer,
       the return has the same size than the input.
      The ASM solver is specific. This operator is not generated by BOOST::operator for performance issue.
      */
     template <std::size_t NumBits>
-    const integer<NumBits> operator + (long int b, integer<NumBits> const& integer_b);
+    const integer<NumBits> operator + (int64_t b, integer<NumBits> const& integer_b);
     
     /**
      \brief Addition between an integer<NumBits> number and a signed 64-bit int
@@ -471,38 +470,38 @@ namespace vli {
      \brief substraction between an integer<NumBits> number and a signed 64-bit int
      \return integer number<NumBits> 
      \param integer_a integer number<NumBits> 
-     \param b long int
+     \param b int64_t
      This operator performs an addition between an integer<NumBits> and as signed 64 bits int, 
      the return has the same size than the input.
      The ASM solver is specific. This operator is not generated by BOOST::operator for performance issue.
      */
     template <std::size_t NumBits>
-    const integer<NumBits> operator - (integer<NumBits> integer_a, long int b);
+    const integer<NumBits> operator - (integer<NumBits> integer_a, int64_t b);
 
     
     /**
      \brief multiplication between an integer<NumBits> and a signed 64-bit int
      \return integer<NumBits>
      \param integer_a integer number<NumBits> 
-     \param b long int
+     \param b int64_t
      This operator performs an addition between an integer<NumBits> and as signed 64 bits int,
       the return has the same size than the input.
      The ASM solver is specific. This operator is not generated by BOOST::operator for performance issue.
      */
     template <std::size_t NumBits>
-    const integer<NumBits> operator * (integer<NumBits> integer_a, long int b);
+    const integer<NumBits> operator * (integer<NumBits> integer_a, int64_t b);
 
     /**
      \brief multiplication between a signed 64-bit int and integer<NumBits> number
      \return integer number<NumBits> 
-     \param a long int
+     \param a int64_t
      \param integer_b integer number<NumBits> 
      This operator performs an addition between an integer<NumBits> and as signed 64 bits int, 
      the return has the same size than the input.
      The ASM solver is specific. This operator is not generated by BOOST::operator for performance issue.
      */
     template <std::size_t NumBits>
-    const integer<NumBits> operator * (long int a, integer<NumBits> const& integer_b);
+    const integer<NumBits> operator * (int64_t a, integer<NumBits> const& integer_b);
     
     /**
      \brief extended multiplication between two integer<NumBits>
