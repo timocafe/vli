@@ -2,6 +2,8 @@
 
     #include <iostream>
     #include "vli/integer.hpp"
+    #include "vli/polynomial.hpp"
+    #include "vli/vector.hpp"
 
     int main(int argc, char * argv[]){
       vli::integer<128> a(1);

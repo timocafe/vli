@@ -60,7 +60,7 @@ typedef boost::mpl::vector<
                           > polynomial_list_128_each;
 
 typedef boost::mpl::vector<
-                            polynomial_type_combined_xyzw_128,
+//                          polynomial_type_combined_xyzw_128,
                             polynomial_type_combined_xyz_128,
                             polynomial_type_combined_xy_128,
                             polynomial_type_combined_x_128 
@@ -74,7 +74,7 @@ typedef boost::mpl::vector<
                           > polynomial_list_192_each;
 
 typedef boost::mpl::vector<
-                           polynomial_type_combined_xyzw_192,
+ //                        polynomial_type_combined_xyzw_192,
                            polynomial_type_combined_xyz_192,
                            polynomial_type_combined_xy_192,
                            polynomial_type_combined_x_192
@@ -88,7 +88,7 @@ typedef boost::mpl::vector<
                           > polynomial_list_256_each;
 
 typedef boost::mpl::vector<
-                            polynomial_type_combined_xyzw_256,
+//                          polynomial_type_combined_xyzw_256,
                             polynomial_type_combined_xyz_256,
                             polynomial_type_combined_xy_256,
                             polynomial_type_combined_x_256
@@ -134,24 +134,24 @@ typedef boost::mpl::vector<
        std::chrono::duration<double> elapsed_seconds_vli = end-start;
 
        #ifdef VLI_USE_GPU
-       Timer t1("GPU ");
-       t1.begin();
+       start = std::chrono::system_clock::now();
            p2_res =  vli::detail::inner_product_gpu_helper<Polynomial>::inner_product_gpu(v1,v2);
-       t1.end();
+       end = std::chrono::system_clock::now();
+       std::chrono::duration<double> elapsed_seconds_gpu = end-start;
        #endif
 
        if(tools::equal<Polynomial>(p1_res,p_gmp_res))
                std::cout << "  OK, cpu/gmp " << elapsed_seconds_vli.count() ;
        #ifdef VLI_USE_GPU
                if(p1_res == p2_res)
-                   std::cout << " gpu "  t1.get_time() ;
+                   std::cout << " gpu "  << elapsed_seconds_gpu.count();
                else
                    std::cout << " gpu no ok";
        #endif
                std::cout << " gmp " <<  elapsed_seconds_gmp.count() ;
                std::cout.precision(2);
        #ifdef VLI_USE_GPU
-       std::cout << " G vli: "  << elapsed_seconds_gmp.count()/elapsed_seconds_vli.count();
+       std::cout << " G vli: "  << elapsed_seconds_gmp.count()/elapsed_seconds_gpu.count();
 //               tool::timescheduler::save(tgmp.get_time(),t0.get_time(),t1.get_time());
        #else
         std::cout << " G vli: "  << elapsed_seconds_gmp.count()/elapsed_seconds_vli.count();

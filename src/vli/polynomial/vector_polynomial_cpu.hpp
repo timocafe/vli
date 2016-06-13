@@ -1,7 +1,7 @@
 /*
 *Very Large Integer Library, License - Version 1.0 - May 3rd, 2012
 *
-*Timothee Ewart - University of Geneva, 
+*Timothee Ewart - University of Geneva,
 *Andreas Hehn - Swiss Federal Institute of technology Zurich.
 *
 *Permission is hereby granted, free of charge, to any person or organization
@@ -40,19 +40,19 @@
 #include <omp.h>
 #endif //_OPENMP
 
-#ifdef VLI_COMPILE_GPU
+#ifdef VLI_USE_GPU
 #include "vli/detail/kernels_gpu.h"
 #include "vli/detail/gpu/inner_product_gpu_accelerator.hpp"
-#endif //VLI_COMPILE_GPU
+#endif //VLI_USE_GPU
 
 namespace vli {
-    
-    
+
+
     /* \cond I do not need this part in the doc*/
-    
+
     template <std::size_t NumBits>
     class integer;
-    
+
     /* \endcond I do not need this part in the doc*/
 
 
@@ -60,7 +60,7 @@ namespace vli {
     \brief  This class models a vector for polynomial
 
     It helps the preparation of the inner product. As the class derived from std::vector, it inherits the properties of the vector, constructor and so on
- 
+
 */
 template<class Polynomial>
 class vector : public std::vector<Polynomial> {
@@ -68,7 +68,7 @@ class vector : public std::vector<Polynomial> {
     /**
     \brief  constructor
     \param size default value 1
-    
+
     Initialiation of the vector for a given size
     */
     vector(std::size_t size = 1)
@@ -90,30 +90,30 @@ struct inner_product_result_type< vector<polynomial<Coeff,MaxOrder,Var0,Var1,Var
 /* \endcond */
 
 
-namespace detail {    
+namespace detail {
 
 /**
     \brief multithread inner product on CPU
     \param v1 vector of polynomial
     \param v2 vector of polynomial
- 
+
     This function performs an inner product on the CPU using OMP multi-threading
 */
 template <class Polynomial>
-typename inner_product_result_type<vector<Polynomial> >::type inner_product_cpu( 
-    vector<Polynomial> const& v1, 
+typename inner_product_result_type<vector<Polynomial> >::type inner_product_cpu(
+    vector<Polynomial> const& v1,
     vector<Polynomial> const& v2){
-    
+
     assert(v1.size() == v2.size());
     std::size_t size_v = v1.size();
 
     #ifdef _OPENMP
-        std::vector<typename inner_product_result_type<vector<Polynomial> >::type > res(omp_get_max_threads()); 
+        std::vector<typename inner_product_result_type<vector<Polynomial> >::type > res(omp_get_max_threads());
     #else
     typename inner_product_result_type<vector<Polynomial> >::type res;
     #endif
 
-    #pragma omp parallel for schedule(dynamic) 
+    #pragma omp parallel for schedule(dynamic)
     for(std::size_t i=0 ; i < size_v ; ++i){
         #ifdef _OPENMP
            res[omp_get_thread_num()] += v1[i]*v2[i];
@@ -125,11 +125,11 @@ typename inner_product_result_type<vector<Polynomial> >::type inner_product_cpu(
     #ifdef _OPENMP
         for(int i=1; i < omp_get_max_threads(); ++i)
             res[0]+=res[i];
-    #endif 
+    #endif
 
     #ifdef _OPENMP
         return res[0];
-    #else 
+    #else
         return res;
     #endif
 }
@@ -138,7 +138,7 @@ typename inner_product_result_type<vector<Polynomial> >::type inner_product_cpu(
     \brief  Safe inner product
     \param v1 vector of polynomial
     \param v2 vector of polynomial
- 
+
     This function performs an inner product on the CPU without any threading
 */
 template <class Polynomial>
@@ -161,10 +161,10 @@ typename inner_product_result_type<vector<Polynomial> >::type inner_product_plai
     \brief  Optimize Inner Product
     \param v1 vector of polynomial
     \param v2 vector of polynomial
- 
+
     This function performs an optimized inner product. If the GPU mode is OFF the inner product will be executed in parrallel by OMP threading.
     If the GPU mode is activated an hybrid inner product will be executed on the GPU under hybrid setting rule.
-    
+
     \note If the  hybrid inner product is executed, it will be full GPU by default. A split parameter is available into the cmake setting. It is to the user
     to fix properly.
 */
@@ -176,7 +176,7 @@ inner_product(
         ) {
 #ifdef VLI_USE_GPU
     return vli::detail::inner_product_gpu_helper<Polynomial>::inner_product_gpu(v1,v2); // can be pure gpu or hybride cpu omp/gpu
-#else 
+#else
     return detail::inner_product_cpu(v1,v2);// can be pure serial or omp
 #endif
 }
@@ -185,7 +185,7 @@ inner_product(
     \brief  Stream operator for the vector class
 */
 template<class Polynomial>
-std::ostream & operator<<(std::ostream & os, vector<Polynomial> const& v) {        
+std::ostream & operator<<(std::ostream & os, vector<Polynomial> const& v) {
     for(std::size_t i = 0; i < v.size(); ++i)
         os << v[i] << std::endl;
     return os;

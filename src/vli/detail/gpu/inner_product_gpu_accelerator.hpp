@@ -40,7 +40,6 @@
 #endif
 
 #include "vli/detail/gpu/detail/gpu_error_message.h"
-#include "utils/timings.h"
 
 #include "vli/detail/kernels_gpu.h"
 #include "vli/detail/gpu/detail/variables_gpu.h"
