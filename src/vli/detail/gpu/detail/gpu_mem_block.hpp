@@ -110,10 +110,10 @@ namespace detail {
         }
         } // end fonction
     }; //end struct
-    
+
     template <std::size_t NumBits, class MaxOrder, int NumVars, typename  range = void > // last template arg for SFINAE 
     struct memory_transfer_helper;
-    
+
     // max order each specialization 
     template <std::size_t NumBits, int Order, int NumVars>
     struct memory_transfer_helper<NumBits, max_order_each<Order>, NumVars, typename boost::enable_if_c< (full_value<NumBits, max_order_each<Order>, NumVars>::value*sizeof(unsigned int) < shared_min::value)>::type >{ //full shared mem version
@@ -137,7 +137,7 @@ namespace detail {
             gpu::cu_check_error(cudaUnbindTexture(tex_reference_2),__FILE__,__LINE__);
 #endif
          }
-    
+
     };
 
     template <std::size_t NumBits, int Order, int NumVars>

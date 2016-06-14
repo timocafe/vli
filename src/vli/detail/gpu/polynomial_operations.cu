@@ -55,7 +55,7 @@ namespace vli {
     template <std::size_t NumBits, class MaxOrder, int NumVars>
     void gpu_inner_product_vecto_helper(std::size_t VectorSize, boost::uint32_t const* A, boost::uint32_t const* B, bool reuse) {
             memory_transfer_helper<NumBits, MaxOrder, NumVars>::transfer_up(pgm, A, B, VectorSize); //transfer data poly to gpu
-            tasklist_keep_order<NumBits, MaxOrder, NumVars> const& ghc =  boost::serialization::singleton< tasklist_keep_order<NumBits, MaxOrder, NumVars> >::get_const_instance(); // calculate the different packet, singleton only one time 
+            tasklist_keep_order<NumBits, MaxOrder, NumVars> const& ghc =  boost::serialization::singleton< tasklist_keep_order<NumBits, MaxOrder, NumVars> >::get_const_instance(); // calculate the different packet, singleton only one time
             //first kernels multiplications polynomials
 	    {
                 dim3 grid(VectorSize) ;
@@ -69,7 +69,7 @@ namespace vli {
             //second kernels reduction polynomials
 	    {
                 dim3 grid, threads(sum_block_size::value);
-                std::size_t num_block_offset(0),quotient(1),rest(0);  
+                std::size_t num_block_offset(0),quotient(1),rest(0);
                 //I do that because a polynomial can have more 65535 blocks, as I need one block per coefficient I have to split again this part
                 //as previously I choose 16384, because it is a good number
                 if(num_coefficients<MaxOrder, NumVars,2>::value > numblock_constant_reduction::value){
@@ -78,14 +78,14 @@ namespace vli {
                     grid.x = numblock_constant_reduction::value; // 16384
                 }else{
                     grid.x = num_coefficients<MaxOrder, NumVars,2>::value ;
-                } 
+                }
 #ifndef NDEBUG
                 std::cout << " --------- BEGIN DEBUG INFOS ----------------------------------" << std::endl;
                 std::cout << " q : " << quotient << " r : " << rest << " # blocks " << grid.x << std::endl;
                 std::cout << " --------- END DEBUG INFOS ----------------------------------" << std::endl;
 #endif
-                for(std::size_t i=0; i < quotient; ++i){ 
-                    polynomial_sum_intermediate_full<NumBits, MaxOrder::value, NumVars><<<grid,threads>>>(pgm.VinterData_, VectorSize, pgm.PoutData_, num_block_offset,reuse); 
+                for(std::size_t i=0; i < quotient; ++i){
+                    polynomial_sum_intermediate_full<NumBits, MaxOrder::value, NumVars><<<grid,threads>>>(pgm.VinterData_, VectorSize, pgm.PoutData_, num_block_offset,reuse);
 #ifndef NDEBUG
                     gpu::cu_check_error(cudaDeviceSynchronize(),__FILE__,__LINE__);
                     gpu::cu_check_error_kernel("error reduction poly  1", __FILE__,__LINE__);
@@ -95,7 +95,7 @@ namespace vli {
 
                 if(rest != 0){
                     grid.x = rest;
-                    polynomial_sum_intermediate_full<NumBits, MaxOrder::value, NumVars><<<grid,threads>>>(pgm.VinterData_, VectorSize, pgm.PoutData_, num_block_offset,reuse); 
+                    polynomial_sum_intermediate_full<NumBits, MaxOrder::value, NumVars><<<grid,threads>>>(pgm.VinterData_, VectorSize, pgm.PoutData_, num_block_offset,reuse);
 #ifndef NDEBUG
                       gpu::cu_check_error(cudaDeviceSynchronize(),__FILE__,__LINE__);
                       gpu::cu_check_error_kernel("error reduction poly  2",__FILE__,__LINE__);
@@ -113,8 +113,8 @@ namespace vli {
 #endif
         resize_helper<NumBits, MaxOrder, NumVars>::resize(pgm, boost::get<0>(sch.get_tupple_data())  ); // allocate mem
         sch.execute(gpu_inner_product_vecto_helper<NumBits,MaxOrder, NumVars>, A, B, full_value<NumBits, MaxOrder, NumVars>::value);
-        memory_transfer_helper<NumBits, MaxOrder, NumVars>::unbind_texture();      
-    } 
+        memory_transfer_helper<NumBits, MaxOrder, NumVars>::unbind_texture();
+    }
 
     boost::uint32_t* gpu_get_polynomial(){
 	    return pgm.PoutData_;

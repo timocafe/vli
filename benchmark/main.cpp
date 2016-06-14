@@ -16,11 +16,12 @@
 #include "misc.hpp"
 #include "tools.h"
 
-#define Size_vec 512
-
 //The order __ORDER__ is passed now by cmake, see cmakelist of the main
 using vli::polynomial;
 using vli::vector;
+
+static int size_benchmark;
+
 typedef vli::integer<128> vli_type_cpu_128;
 typedef vli::integer<192> vli_type_cpu_192;
 typedef vli::integer<256> vli_type_cpu_256;
@@ -53,9 +54,9 @@ typedef vli::polynomial< vli_type_cpu_256, vli::max_order_combined<__ORDER__>, v
 typedef vli::polynomial< vli_type_cpu_256, vli::max_order_combined<__ORDER__>, vli::var<'x'>, vli::var<'y'>, vli::var<'z'>, vli::var<'w'> > polynomial_type_combined_xyzw_256;
 
 typedef boost::mpl::vector<
-                            polynomial_type_each_xyz_128,
-                            polynomial_type_each_xy_128,
-                            polynomial_type_each_x_128
+                            polynomial_type_each_xyz_128
+//                          polynomial_type_each_xy_128,
+//                          polynomial_type_each_x_128
 //                            polynomial_type_each_xyzw_128// buffer can be too large cpu/gpu, be cautious
                           > polynomial_list_128_each;
 
@@ -110,10 +111,10 @@ typedef boost::mpl::vector<
        typedef vli::vector<Polynomial> vector_polynomial;
        typedef vli::vector<Polynomial_res> vector_polynomial_res;
        //VLI polys
-       vector_polynomial v1(Size_vec),v2(Size_vec);
+       vector_polynomial v1(size_benchmark),v2(size_benchmark);
        Polynomial_res p1_res, p2_res;
        //GMP polys
-       vector_polynomial_gmp v1_gmp(Size_vec),v2_gmp(Size_vec);
+       vector_polynomial_gmp v1_gmp(size_benchmark),v2_gmp(size_benchmark);
        Polynomial_gmp_res p_gmp_res;
 
        tools::fill_vector_random(v1);
@@ -151,10 +152,9 @@ typedef boost::mpl::vector<
                std::cout << " gmp " <<  elapsed_seconds_gmp.count() ;
                std::cout.precision(2);
        #ifdef VLI_USE_GPU
-       std::cout << " G vli: "  << elapsed_seconds_gmp.count()/elapsed_seconds_gpu.count();
-//               tool::timescheduler::save(tgmp.get_time(),t0.get_time(),t1.get_time());
+       std::cout << " G vli: "  << elapsed_seconds_gmp.count()/elapsed_seconds_gpu.count() << "\n";
        #else
-        std::cout << " G vli: "  << elapsed_seconds_gmp.count()/elapsed_seconds_vli.count();
+       std::cout << " G vli: "  << elapsed_seconds_gmp.count()/elapsed_seconds_vli.count() << "\n";
        #endif
 
        }
@@ -162,8 +162,11 @@ typedef boost::mpl::vector<
 
 
 int main(int argc, char* argv[]) {
+       size_benchmark = atoi(argv[1]);
+       boost::mpl::for_each<polynomial_list_128_each>(test_case());
+ /*
        std::cout << " -------ASCII ART ^_^' --------------------------------------------------------------------------------------------------------------------------------------------------------- " << std::endl;
-       std::cout << " -------Size vector : " << Size_vec  << ", Order " << __ORDER__ << std::endl;
+       std::cout << " -------Size vector : " << size_benchmark  << ", Order " << __ORDER__ << std::endl;
        std::cout << " -----  Max_Order_Each --------------------------------------------------------------------------------------------------------------------------------------------------------- " << std::endl;
        std::cout << " ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- " << std::endl;
        std::cout << " -----  3 variable --------------------------------- 2 variables --------------------------------- 1 variables ----------------------------------------------------------------- " << std::endl;
@@ -196,5 +199,6 @@ int main(int argc, char* argv[]) {
        boost::mpl::for_each<polynomial_list_128_combined>(test_case());
        std::cout << std::endl;
        std::cout << " ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- " << std::endl;
+*/
        return 0;
 }

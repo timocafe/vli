@@ -26,9 +26,9 @@ namespace tools
         typedef typename vli::polynomial_multiply_type_gmp<Polynomial>::type Polynomial_gmp;
         typename Polynomial::iterator it_poly_vli;
         typename Polynomial_gmp::iterator it_poly_gmp;
-    
+
         std::size_t vec_size = v_vli.size();
-    
+
         for(int i=0; i< vec_size; ++i){
             it_poly_vli = v_vli[i].begin();
             it_poly_gmp = v_gmp[i].begin();

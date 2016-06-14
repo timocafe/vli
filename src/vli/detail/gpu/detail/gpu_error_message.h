@@ -36,7 +36,7 @@
 #include <cuda_runtime_api.h>
 #include <stdexcept>
 
-namespace gpu {    
+namespace gpu {
      static void cu_check_error(cudaError_t  const& err, char const* file,  std::size_t line) {
          if(err != cudaSuccess){
              char const* cuda_msg = cudaGetErrorString(err);
@@ -48,7 +48,7 @@ namespace gpu {
          cudaError_t error = cudaGetLastError();
          if(error!=cudaSuccess) {
              throw(std::runtime_error("CUDA error (Error:"+ boost::lexical_cast<std::string>(message) +") in " + boost::lexical_cast<std::string>(file) + " line : " +  boost::lexical_cast<std::string>(line)  ));
-         }                         
+         }
       }
 
 

@@ -16,19 +16,19 @@ namespace tools{
         static std::uniform_int_distribution<int> rnd(0,std::abs(static_cast<int>(std::numeric_limits<typename vli::value_type>::max())));
         return rnd(rng);
     }
-   
+
     template <typename vli>
     void vli_negate(vli& v, int random=vli::numwords){
         if(v[0]%random == 0)
             v.negate();
     }
-   
+
     template <typename vli>
     void fill_random(vli& v){
         for(typename vli::size_type i=0; i < vli::numwords; ++i)
-            v[i] = rnd_digit<vli>(); 
+            v[i] = rnd_digit<vli>();
     }
-   
+
     template <typename vli>
     void fill_random(vli& v, typename vli::size_type size){
         assert(size <= vli::size);
@@ -42,10 +42,11 @@ namespace tools{
            fill_random(*it);
            vli_negate(*it);
         }
-    } 
-   
+    }
+
     template <class Vector>
     void fill_vector_random(Vector& v){
+        #pragma omp parallel for
         for(typename Vector::size_type i=0; i < v.size(); ++i)
            fill_poly_random(v[i]);
     }
