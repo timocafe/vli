@@ -181,7 +181,8 @@ Considering the following example :
     a[1] = 0xffffffffffffffff // 16 times f
     vli::multiply_extend(c,a,b);
     std::cout << std::hex << c << std::endl; gives
-   0xffffffffffffffff 0xf100000000000000 0xd100000000000001 0xe000000000000001
+    
+    0xffffffffffffffff 0xf100000000000000 0xd100000000000001 0xe000000000000001
    
 We summarize the possibilities of the arithmetic operations on the vli::integer into the next table.
 
@@ -201,19 +202,19 @@ the symbolic name of the variables. To illustrate this functionnality, we consid
 variable where coefficients are assimilated to a vli::integer<128>, we have :
 
     typedef vli::integer<128> integer_type_cpu_128; // New type of 128-bit integer
-    typedef vli::polynomial< integer_type_cpu_128, vli::max_order_each<10>,
-        vli::var<'x'>  >polynomial_type_each_x_128;  // dense polynomial, order 10, one variable "x"
-            
+    typedef vli::polynomial< integer_type_cpu_128, vli::max_order_each<10>, vli::var<'x'>  >polynomial_type_each_x_128;  // dense polynomial, order 10, one variable "x"         
     polynomial_type_each_x_128 p; // Create the polynomial with null coefficients
     
 The initialization of the coefficients of the polynomial respect the rule of the coefficient class (here a vli::integer).
 In the example, it can be attained with the operator () and =,
 
     p(0) = 1;
+    
 If the polynomial has more then one variable, the brackets operator will fit until four variables. Thus,
 the polynomial will be initialized by:
 
     p(0,0) = 1;
+    
 Monomials are constructed like polynomial but without the dense/triangular structure, and they are initialized as usual
 
     typedef vli::integer<128> integer_type_cpu_128; // New type of 128-bit integer
@@ -230,6 +231,7 @@ respect elementary mathematic rules. Per example, polynomials interaction with a
     p += m;
     p *= m;
     p *= 3;
+    
 The polynomial allows only arithmetic operations (addition and substraction) between polynomials of the same type, 
 necessary. If we make the sum of polynomial of one variables, we write
 
