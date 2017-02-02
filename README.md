@@ -79,6 +79,7 @@ whereas the equivalent triangular polynomial will be:
 
     #include "vli/integer.hpp"
     #include "vli/polynomial.hpp" 
+    
 All programs using VLI must be link against the libvli library, as usual on linux system, it should be done with -lvli. 
 If the library is installed in the standard location
 
@@ -158,6 +159,7 @@ The next operations are the multiplication (*) and the division (/). Multiply tw
     vli::integer<128> a(0xfffffffffffffff),b(0xfffffffffffffff); // fill up 63-bit
     a *= b; // I will get a 126-bit number, it fits into 128 bit number gives,
     0xffffffffffffff 0xe000000000000001
+    
 If now, we define a and b with the following initialization (1 0xffffffffffffffff). The multiplication gives (fffffffffffffffc 1) which is wrong. The correct result is (5 fffffffffffffffc 1). The library does not provide any safeties for the multiplication contraty to GMP. In terms of performance, the multiplication respects the same ladder than the additions/subtractions. The possibilities of the extended multiplications will be presented in the next tutorial.
 
 To finish this tutorial, we give some words on the division. The division is closed to the % operator as it use the same functions. The solvers are generic whatever the left/right value of the operators, thus the execution time is the same e.g. for the operations integer<NumBits> /= , %= integer<NumBits> and integer<NumBits>/=, %=long.
