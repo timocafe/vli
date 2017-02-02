@@ -168,6 +168,7 @@ Non-constant size arithmetic operations
 The third tutorial illustrates the arithmetic operations which produce larger output than input. By definition a multiplication can generate a twice larger operand. Considering the two 128 bit large integers a and b, initialized under the following form (0x0fffffffffffffff, 0x0fffffffffffffff), the produce of the operands will give an integer with a size of 256-bit. The extend multiplication is performed by the vli::multiply_extend free function;
 
 Considering the following example :
+
     vli::integer<128> a,b;
     vli::integer<256> c; // a and b inputs, c ouputs
     a[0] = a[1] = b[0] = b[1] = 0xfffffffffffffff;
@@ -181,6 +182,7 @@ Considering the following example :
     vli::multiply_extend(c,a,b);
     std::cout << std::hex << c << std::endl; gives
    0xffffffffffffffff 0xf100000000000000 0xd100000000000001 0xe000000000000001
+   
 We summarize the possibilities of the arithmetic operations on the vli::integer into the next table.
 
 bit ops	+	-	*	/	multiply_extend	multiply_add
@@ -200,11 +202,10 @@ variable where coefficients are assimilated to a vli::integer<128>, we have :
 
     typedef vli::integer<128> integer_type_cpu_128; // New type of 128-bit integer
     typedef vli::polynomial< integer_type_cpu_128, vli::max_order_each<10>,
-        vli::var<'x'>  >polynomial_type_each_x_128;
-        // dense polynomial, order 10, one variable "x"
+        vli::var<'x'>  >polynomial_type_each_x_128;  // dense polynomial, order 10, one variable "x"
             
-    polynomial_type_each_x_128 p;
-        // Create the polynomial with null coefficients
+    polynomial_type_each_x_128 p; // Create the polynomial with null coefficients
+    
 The initialization of the coefficients of the polynomial respect the rule of the coefficient class (here a vli::integer).
 In the example, it can be attained with the operator () and =,
 
@@ -219,6 +220,7 @@ Monomials are constructed like polynomial but without the dense/triangular struc
     typedef vli::monomial< integer_type_cpu_128, vli::var<'x'>  >monomial_x_128;
             // monomial, one variable "x"
     monomial_x_128 m(2);
+    
 The polynomial class allows arithmetic operations with constants, monomials and polynomials. Basic operations 
 respect elementary mathematic rules. Per example, polynomials interaction with a monomial and a constant can be done by
 
@@ -235,6 +237,7 @@ necessary. If we make the sum of polynomial of one variables, we write
     std::generate(p1.begin(),p1.end(),Generator)
     std::generate(p2.begin(),p2.end(),Generator)
     p1 += p2; //make the sum
+    
 The polynomial multiplications need a twice larger (Order and Size of coefficient) result polynomial. The polynomial 
 class has a trait class which gives the exact result type of the polynomial multiplication.
 
@@ -246,6 +249,7 @@ Thus, the multiplication between two polynomials is performed by
     std::generate(p1.begin(),p1.end(),Generator) //Polynomials are std compatible
     std::generate(p2.begin(),p2.end(),Generator) //Polynomials are std compatible
     pr = p1 * p2;
+    
 GPU accelerator for inner products
 The last tutorial presents the possibility of the library to perform efficient inner product by multhreading,
 GPU accelerator or hybrid-mode. The library allows a module for vector of polynomial by the following include.
@@ -257,6 +261,7 @@ As previously, with the usual rule of template, we can define a vector of polyno
     typedef vli::polynomial< integer_type_cpu_128, vli::max_order_each<10>,
         vli::var<'x'>  >polynomial_type_each_x_128;
     typedef vli::vector polynomial_type_each_x_128;
+    
 As the vli::vector derived from a std::vector, it has similar properties. The inner product is simply call by the 
 vli::inner_product function which returns a polynomial twice larger (Order and Size of coefficient). We use the class trait.
 
