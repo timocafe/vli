@@ -28,8 +28,13 @@ endif(NOT MACHINE_CONFIG)
 ########################################################################
 
 project (vli)
-set (VLI_VERSION_MAJOR 0)
-set (VLI_VERSION_MINOR 2)
+set (VLI_VERSION_MAJOR 1)
+set (VLI_VERSION_MINOR 0)
+
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
+                              ${CMAKE_SOURCE_DIR}/CMake/common)
+
+include(clang-format)#format
 
 ########################################################################
 #
@@ -70,10 +75,10 @@ set (VLI_COMPILE_TYPES ${COMPILE_TYPES} CACHE STRING "Numbers of bits, Order Pol
 # Find dependencies
 #
 ########################################################################
-if(VLI_USE_OPENMP)
      find_package(OpenMP)
+     if(OPENMP_FOUND)
      add_definitions(${OpenMP_CXX_FLAGS})
-endif(VLI_USE_OPENMP)
+     endif()
 
 if (VLI_COMPILE_GPU)
    find_package (CUDA)
@@ -145,7 +150,7 @@ add_subdirectory( src/vli/ )
 ########################################################################
 if(VLI_MAIN)
     add_subdirectory(main/)
-    add_subdirectory(benchmark/)
+  # add_subdirectory(benchmark/)
 endif()
 
 ########################################################################

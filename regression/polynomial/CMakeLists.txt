@@ -6,7 +6,7 @@ foreach(test_vli
         polynomial_tests
        )
            add_executable(${test_vli} ${test_vli}.cpp)
-           target_link_libraries(${test_vli} ${VLI_TEST_LIBRARIES} ${OpenMP_CXX_FLAGS})
+           target_link_libraries(${test_vli} ${VLI_TEST_LIBRARIES} )
            add_test(${test_vli} ${test_vli}) 
 endforeach(test_vli)
 
