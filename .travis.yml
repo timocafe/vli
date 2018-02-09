@@ -21,6 +21,7 @@ addons:
     - gcc-4.8
     - g++-4.8
     - clang
+    - clang-format-5.0
     - libboost-all-dev
     - libgmp-dev
 before_script:
