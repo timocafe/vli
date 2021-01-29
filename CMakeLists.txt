@@ -34,7 +34,7 @@ set (VLI_VERSION_MINOR 0)
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
                               ${CMAKE_SOURCE_DIR}/CMake)
 
-include(clang-format)
+#include(clang-format)
 
 ########################################################################
 #
