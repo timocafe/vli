@@ -4,9 +4,9 @@ set(order_list 1 2 3 4 5 6 7 8 9 10 11 12 13 14)
 
 if(VLI_COMPILE_GPU)
     add_definitions(-DVLI_USE_GPU -DVLI_SPLIT_PARAM=${VLI_SPLIT_PARAM} )
-    set(LIBRAIRIES vli accelerator_gpu ${CUDA_CUDART_LIBRARY} ${CUDA_LIBRARIES} ${OpenMP_CXX_FLAGS} ${GMP_LIBRARY_CXX})
+    set(LIBRAIRIES vli accelerator_gpu ${CUDA_CUDART_LIBRARY} ${CUDA_LIBRARIES}  ${GMP_LIBRARY_CXX})
 else(VLI_COMPILE_GPU)
-    set(LIBRAIRIES vli ${OpenMP_CXX_FLAGS} ${GMP_LIBRARY_CXX})
+    set(LIBRAIRIES vli  ${GMP_LIBRARY_CXX})
 endif(VLI_COMPILE_GPU)
 
 foreach(order ${order_list})
