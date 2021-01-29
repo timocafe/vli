@@ -32,9 +32,9 @@ set (VLI_VERSION_MAJOR 1)
 set (VLI_VERSION_MINOR 0)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMake
-                              ${CMAKE_SOURCE_DIR}/CMake/common)
+                              ${CMAKE_SOURCE_DIR}/CMake)
 
-include(clang-format)#format
+include(clang-format)
 
 ########################################################################
 #
@@ -113,7 +113,6 @@ endif (VLI_COMPILE_GPU)
     endif (GMP_FOUND)
 #endif (VLI_TESTS)
 
-SET(BOOST_MIN_VERSION "1.46.0")
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED unit_test_framework)
  
 #find_package (Boost COMPONENTS unit_test_framework random)
